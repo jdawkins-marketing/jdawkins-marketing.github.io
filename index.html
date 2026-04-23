@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jazmin Dawkins — Lifecycle & Retention</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2A5C1E;
+    --moss: #4A7C3F;
+    --sage: #7A9E6F;
+    --cream: #F5F0E3;
+    --parchment: #EDE6D0;
+    --bark: #5C3D1E;
+    --soil: #3B2A14;
+    --ink: #1C1C18;
+    --mist: #E8F0E4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 80px;
+    background: var(--cream);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  /* spore ring decoration */
+  .hero-rings {
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+  .hero-rings::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-rings::after {
+    content: '';
+    position: absolute;
+    inset: 90px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.02);
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--cream);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(245,240,227,0.65);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 60px 100px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    color: var(--cream);
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+
+  .hero-name em {
+    display: block;
+    font-style: italic;
+    color: rgba(245,240,227,0.5);
+    font-size: 0.6em;
+  }
+
+  .hero-tagline {
+    margin-top: 28px;
+    font-size: 1.05rem;
+    color: rgba(245,240,227,0.7);
+    max-width: 560px;
+    line-height: 1.7;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 36px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+
+  .pill {
+    padding: 6px 16px;
+    border: 1px solid rgba(245,240,227,0.25);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    color: rgba(245,240,227,0.75);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .hero-scroll {
+    padding: 0 60px 60px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.1s forwards;
+  }
+
+  .scroll-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(245,240,227,0.3);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: rgba(245,240,227,0.25);
+  }
+
+  /* ── SECTIONS ── */
+  section { position: relative; }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 60px;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--sage);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 48px;
+  }
+
+  /* ── RESULTS STRIP ── */
+  .results {
+    background: var(--parchment);
+    border-top: 1px solid rgba(42,92,30,0.1);
+    border-bottom: 1px solid rgba(42,92,30,0.1);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .result-item {
+    padding: 52px 40px;
+    border-right: 1px solid rgba(42,92,30,0.12);
+    position: relative;
+    transition: background 0.3s;
+  }
+  .result-item:last-child { border-right: none; }
+  .result-item:hover { background: rgba(42,92,30,0.04); }
+
+  .result-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-label {
+    font-size: 0.78rem;
+    color: var(--bark);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .result-detail {
+    font-size: 0.68rem;
+    color: var(--sage);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── HOW I OPERATE ── */
+  .operate { background: var(--cream); }
+
+  .operate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .operate-left p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #444;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .operate-left p strong {
+    color: var(--forest);
+    font-weight: 500;
+  }
+
+  .operate-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .op-card {
+    background: var(--parchment);
+    border: 1px solid rgba(42,92,30,0.1);
+    border-radius: 12px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--forest);
+  }
+
+  .op-card-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--forest);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .op-card p {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* ── CASE STUDY ── */
+  .case-study { background: var(--forest); }
+  .case-study .section-title { color: var(--cream); }
+  .case-study .section-label { color: var(--sage); }
+
+  .cs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .cs-block {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 36px;
+  }
+
+  .cs-block-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 16px;
+  }
+
+  .cs-block p {
+    font-size: 0.9rem;
+    color: rgba(245,240,227,0.7);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .cs-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cs-block li {
+    font-size: 0.88rem;
+    color: rgba(245,240,227,0.72);
+    line-height: 1.55;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .cs-block li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+    font-size: 0.75rem;
+  }
+
+  .cs-impact {
+    grid-column: 1 / -1;
+    background: rgba(245,240,227,0.06);
+    border: 1px solid rgba(245,240,227,0.15);
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .cs-stat {
+    padding: 0 32px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .cs-stat:first-child { padding-left: 0; }
+  .cs-stat:last-child { border-right: none; }
+
+  .cs-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .cs-stat-label {
+    font-size: 0.78rem;
+    color: rgba(245,240,227,0.5);
+    line-height: 1.4;
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap { background: var(--parchment); }
+
+  .roadmap-phases {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border: 1px solid rgba(42,92,30,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .phase {
+    padding: 32px 24px;
+    border-right: 1px solid rgba(42,92,30,0.12);
+    transition: background 0.25s;
+    cursor: default;
+  }
+  .phase:last-child { border-right: none; }
+  .phase:hover { background: rgba(42,92,30,0.05); }
+
+  .phase-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: rgba(42,92,30,0.15);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .phase-title {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--forest);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .phase-days {
+    font-size: 0.65rem;
+    color: var(--sage);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .phase-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .phase-items li {
+    font-size: 0.78rem;
+    color: #666;
+    line-height: 1.4;
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .phase-items li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+  }
+
+  /* ── TOOLS ── */
+  .tools { background: var(--cream); }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .tool-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+    border: 1px solid rgba(42,92,30,0.12);
+    border-radius: 10px;
+    background: var(--parchment);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tool-item:hover {
+    border-color: var(--moss);
+    transform: translateY(-2px);
+  }
+
+  .tool-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--forest);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tool-name {
+    font-size: 0.88rem;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--soil);
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 160px;
+    background: var(--cream);
+    clip-path: ellipse(50% 100% at 50% 0%);
+  }
+
+  .contact-inner { position: relative; z-index: 1; }
+
+  .contact h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+
+  .contact p {
+    color: rgba(245,240,227,0.55);
+    font-size: 0.95rem;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .contact-link {
+    display: inline-block;
+    padding: 14px 40px;
+    background: var(--cream);
+    color: var(--forest);
+    text-decoration: none;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .contact-link:hover {
+    background: var(--parchment);
+    transform: translateY(-2px);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── DIVIDER ── */
+  .spore-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px 0;
+    opacity: 0.3;
+  }
+  .spore-divider::before, .spore-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: var(--forest);
+  }
+  .spore-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--forest);
+  }
+
+  @media (max-width: 768px) {
+    nav, .hero-body, .hero-scroll { padding-left: 28px; padding-right: 28px; }
+    .section-inner { padding: 70px 28px; }
+    .results-grid { grid-template-columns: 1fr 1fr; }
+    .operate-grid, .cs-grid { grid-template-columns: 1fr; }
+    .cs-impact { grid-template-columns: 1fr 1fr; }
+    .roadmap-phases { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-rings"></div>
+
+  <nav>
+    <div class="nav-logo">Jazmin Dawkins</div>
+    <ul class="nav-links">
+      <li><a href="#results">Results</a></li>
+      <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero-body">
+    <p class="hero-eyebrow">Lifecycle & Retention Marketing</p>
+    <h1 class="hero-name">
+      Jazmin<br>
+      Dawkins
+      <em>eCommerce Growth & Retention</em>
+    </h1>
+    <p class="hero-tagline">I design lifecycle systems that turn first-time buyers into repeat customers — increasing retention revenue, subscription adoption, and CLTV.</p>
+    <div class="hero-pills">
+      <span class="pill">Klaviyo</span>
+      <span class="pill">Shopify</span>
+      <span class="pill">Recharge</span>
+      <span class="pill">CRM Architecture</span>
+      <span class="pill">Segmentation</span>
+      <span class="pill">Deliverability</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line">Scroll to explore</div>
+  </div>
+</section>
+
+<!-- ── RESULTS ── -->
+<section class="results" id="results">
+  <div class="results-grid reveal">
+    <div class="result-item">
+      <div class="result-number">+33%</div>
+      <div class="result-label">Average Order Value</div>
+      <div class="result-detail">$18 → $24 via pricing, PDP & rebrand</div>
+    </div>
+    <div class="result-item">
+      <div class="result-number">45%</div>
+      <div class="result-label">Repeat Purchase Rate</div>
+      <div class="result-detail">at 90 days post-purchase</div>
+    </div>
+    <div class="result-item">
+      <div class="result-number">98%</div>
+      <div class="result-label">Email Deliverability</div>
+      <div class="result-detail">&lt;1.5% bounce · near-zero unsubs</div>
+    </div>
+    <div class="result-item">
+      <div class="result-number">+5pt</div>
+      <div class="result-label">Subscription Adoption</div>
+      <div class="result-detail">via UX, framing & checkout clarity</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW I OPERATE ── -->
+<section class="operate">
+  <div class="section-inner">
+    <div class="operate-grid reveal">
+      <div class="operate-left">
+        <div class="section-label">Approach</div>
+        <h2 class="section-title">Built for retention,<br><em style="font-style:italic; color: var(--bark);">not just campaigns</em></h2>
+        <p>I own <strong>retention + subscription growth</strong> end-to-end: email/SMS flows, lifecycle architecture, deliverability, and subscription UX.</p>
+        <p>I build <strong>education-first journeys</strong> that move customers from first order → habit → repeat. That means lifecycle aligns with your site experience, launches, inventory, and paid acquisition — not just what goes out in Klaviyo.</p>
+        <p>I prove impact using <strong>retention curves (30/60/90)</strong>, churn, subscription attach, and cohort LTV — not vanity metrics.</p>
+      </div>
+      <div class="operate-cards">
+        <div class="op-card">
+          <div class="op-card-title">Build / Repair</div>
+          <p>Flow architecture, list health, event tracking, and reporting dashboards built from the ground up or audited and rebuilt.</p>
+        </div>
+        <div class="op-card">
+          <div class="op-card-title">Optimize</div>
+          <p>Cadence & timing, testing roadmap, offer logic, education-first onboarding, and post-purchase sequencing.</p>
+        </div>
+        <div class="op-card">
+          <div class="op-card-title">Align</div>
+          <p>Lifecycle with site experience, product launches, inventory, and paid acquisition — so retention compounds instead of fighting for attention.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CASE STUDY ── -->
+<section class="case-study" id="case-study">
+  <div class="section-inner">
+    <div class="section-label reveal">Case Study</div>
+    <h2 class="section-title reveal">Rebuilding Revenue Infrastructure<br><span style="opacity:0.6; font-size:0.75em;">DTC Skincare Brand · Shopify + Klaviyo</span></h2>
+
+    <div class="cs-grid reveal">
+      <div class="cs-block">
+        <div class="cs-block-title">The Situation</div>
+        <ul>
+          <li>Growth heavily dependent on Meta and influencer spend</li>
+          <li>AOV ~$18 limiting LTV potential</li>
+          <li>Deliverability issues causing poor inbox placement</li>
+          <li>No structured loyalty or retention engine</li>
+          <li>Weak subscription adoption, churn trending up</li>
+        </ul>
+      </div>
+      <div class="cs-block">
+        <div class="cs-block-title">My Diagnosis</div>
+        <p>After auditing the funnel, the issue wasn't traffic. It was <em style="color: var(--sage); font-style:italic;">systems alignment, subscription UX, and lifecycle sequencing</em> — none of which were designed to drive repeat behavior. Retention wasn't a growth lever. Paid had to carry everything.</p>
+      </div>
+      <div class="cs-block">
+        <div class="cs-block-title">Execution</div>
+        <ul>
+          <li>Fixed deliverability via SPF, DKIM, DMARC + copy/cadence/segmentation cleanup</li>
+          <li>Migrated from Mailchimp → Klaviyo for cleaner lifecycle architecture</li>
+          <li>Rebuilt Shopify: nav, PDPs, premium layout, and subscription UX end-to-end</li>
+          <li>Implemented core flows: welcome, post-purchase, replenishment, winback</li>
+          <li>Coordinated packaging, pricing reset, and claims for premium positioning</li>
+          <li>Launched loyalty + insert strategy to drive reviews and repeat purchases</li>
+        </ul>
+      </div>
+      <div class="cs-block">
+        <div class="cs-block-title">Outcome</div>
+        <ul>
+          <li>Email/SMS became highest converting channel, outpacing paid ads</li>
+          <li>Unsubscribe rate dropped to near-zero after lifecycle restructure</li>
+          <li>Subscription adoption improved ~5 points through UX + framing changes</li>
+          <li>New haircare vertical launched on separate Shopify instance with full lifecycle stack</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cs-impact reveal" style="margin-top: 24px;">
+      <div class="cs-stat">
+        <div class="cs-stat-num">+33%</div>
+        <div class="cs-stat-label">AOV lift</div>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-num">98%</div>
+        <div class="cs-stat-label">Deliverability achieved</div>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-num">~0</div>
+        <div class="cs-stat-label">Unsubscribe rate</div>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-num">+5pt</div>
+        <div class="cs-stat-label">Subscription adoption</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROADMAP ── -->
+<section class="roadmap" id="roadmap">
+  <div class="section-inner">
+    <div class="section-label reveal">Sample Framework</div>
+    <h2 class="section-title reveal">Roadmap to 30% Retention Revenue</h2>
+
+    <div class="roadmap-phases reveal">
+      <div class="phase">
+        <div class="phase-num">01</div>
+        <div class="phase-title">Lifecycle Audit</div>
+        <div class="phase-days">Days 1–10</div>
+        <ul class="phase-items">
+          <li>Flow performance review</li>
+          <li>Revenue attribution by flow</li>
+          <li>Time-to-second-purchase</li>
+          <li>Product reorder patterns</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">02</div>
+        <div class="phase-title">Segmentation Architecture</div>
+        <div class="phase-days">Days 11–15</div>
+        <ul class="phase-items">
+          <li>First-time buyers</li>
+          <li>Active + VIP customers</li>
+          <li>At-risk / churn</li>
+          <li>Behavioral overlays</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">03</div>
+        <div class="phase-title">Post-Purchase Optimization</div>
+        <div class="phase-days">Days 16–20</div>
+        <ul class="phase-items">
+          <li>Education flow build</li>
+          <li>Habit formation sequence</li>
+          <li>Replenishment timing</li>
+          <li>Subscription framing</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">04</div>
+        <div class="phase-title">Replenishment Strategy</div>
+        <div class="phase-days">Days 20–25</div>
+        <ul class="phase-items">
+          <li>Reorder reminders (email)</li>
+          <li>Quick reorder link (SMS)</li>
+          <li>Subscription offer timing</li>
+          <li>Helpful over promotional</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-num">05</div>
+        <div class="phase-title">Testing & Optimization</div>
+        <div class="phase-days">Days 25+</div>
+        <ul class="phase-items">
+          <li>Replenishment timing tests</li>
+          <li>SMS vs email conversion</li>
+          <li>Subscription offer position</li>
+          <li>Cohort LTV tracking</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TOOLS ── -->
+<section class="tools">
+  <div class="section-inner">
+    <div class="section-label reveal">Stack</div>
+    <h2 class="section-title reveal">Tools I Own</h2>
+    <div class="tools-grid reveal">
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Klaviyo</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Shopify</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Recharge</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Postscript</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Attentive</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">GA4 / GTM</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Loox</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">PageFly</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">ShipStation</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <h2>Let's work together</h2>
+    <p>Open to remote roles in lifecycle, retention, and ecommerce growth.</p>
+    <a class="contact-link" href="mailto:jdawkins.marketing@gmail.com">Get in touch</a>
+  </div>
+</section>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
