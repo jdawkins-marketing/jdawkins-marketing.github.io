@@ -829,17 +829,76 @@
     background: var(--forest);
   }
 
+  /* ── HAMBURGER ── */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: rgba(245,240,227,0.8);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
   @media (max-width: 768px) {
-    nav, .hero-body, .hero-scroll { padding-left: 28px; padding-right: 28px; }
-    .section-inner { padding: 70px 28px; }
+    nav {
+      padding: 20px 24px;
+      position: relative;
+    }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: var(--forest);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      z-index: 100;
+      padding: 8px 0;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li a {
+      display: block;
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .hero-body { padding: 40px 24px 80px; }
+    .hero-scroll { padding: 0 24px 40px; }
+    .section-inner { padding: 60px 24px; }
+
     .results-grid { grid-template-columns: 1fr 1fr; }
+    .result-item { padding: 36px 24px; }
+
     .operate-grid, .cs-grid { grid-template-columns: 1fr; }
     .cs-impact { grid-template-columns: 1fr 1fr; }
     .roadmap-phases { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: 1fr 1fr; }
+
     .haven-summary { grid-template-columns: 1fr; }
     .haven-bm-grid { grid-template-columns: 1fr 1fr; }
     .haven-findings { grid-template-columns: 1fr; }
+
+    .contact { padding: 60px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .results-grid { grid-template-columns: 1fr; }
+    .cs-impact { grid-template-columns: 1fr 1fr; }
+    .haven-bm-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .hero-pills { gap: 8px; }
   }
 </style>
 </head>
@@ -851,6 +910,9 @@
 
   <nav>
     <div class="nav-logo">Jazmin Dawkins</div>
+    <button class="nav-toggle" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
     <ul class="nav-links">
       <li><a href="#results">Results</a></li>
       <li><a href="#case-study">Case Study</a></li>
@@ -1249,6 +1311,13 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => observer.observe(el));
+
+  // Close mobile nav when a link is tapped
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('open');
+    });
+  });
 </script>
 
 </body>
