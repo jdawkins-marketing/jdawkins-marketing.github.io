@@ -435,6 +435,197 @@
     line-height: 1.4;
   }
 
+  /* ── HAVEN AUDIT ── */
+  .haven-audit { background: var(--cream); }
+
+  .haven-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 56px;
+    align-items: start;
+  }
+
+  .haven-summary-text p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #555;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  .haven-bottom-line {
+    background: var(--forest);
+    border-radius: 14px;
+    padding: 32px;
+  }
+
+  .haven-bl-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 12px;
+  }
+
+  .haven-bottom-line p {
+    font-size: 0.92rem;
+    color: rgba(245,240,227,0.8);
+    line-height: 1.75;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .haven-benchmarks {
+    margin-bottom: 56px;
+  }
+
+  .haven-bm-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 20px;
+  }
+
+  .haven-bm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid rgba(42,92,30,0.14);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .haven-flow {
+    padding: 28px 24px;
+    border-right: 1px solid rgba(42,92,30,0.12);
+    background: var(--parchment);
+  }
+  .haven-flow:last-child { border-right: none; }
+  .haven-flow.highlight-flow { background: rgba(42,92,30,0.07); }
+
+  .haven-flow-name {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--forest);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .haven-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .haven-metric {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .hm-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  .hm-val.above { color: var(--forest); }
+  .hm-val.below { color: var(--bark); }
+
+  .hm-label {
+    font-size: 0.68rem;
+    color: #888;
+    flex: 1;
+  }
+
+  .hm-peer {
+    font-size: 0.62rem;
+    color: #aaa;
+    width: 100%;
+  }
+
+  .haven-flow-note {
+    font-size: 0.7rem;
+    color: var(--sage);
+    font-style: italic;
+    line-height: 1.4;
+    border-top: 1px solid rgba(42,92,30,0.1);
+    padding-top: 10px;
+    margin-top: 4px;
+  }
+
+  .haven-findings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .haven-finding {
+    background: var(--parchment);
+    border: 1px solid rgba(42,92,30,0.12);
+    border-radius: 14px;
+    padding: 32px;
+    position: relative;
+  }
+
+  .haven-finding-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: rgba(42,92,30,0.1);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .haven-finding-priority {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .haven-finding-priority.high {
+    background: rgba(92,61,30,0.12);
+    color: var(--bark);
+  }
+  .haven-finding-priority.med {
+    background: rgba(42,92,30,0.1);
+    color: var(--moss);
+  }
+
+  .haven-finding-title {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+
+  .haven-finding p {
+    font-size: 0.84rem;
+    color: #666;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  .haven-rec {
+    font-size: 0.82rem;
+    color: var(--forest);
+    line-height: 1.6;
+    padding: 12px 16px;
+    background: rgba(42,92,30,0.06);
+    border-radius: 8px;
+    border-left: 2px solid var(--forest);
+  }
+
+  .haven-rec strong { font-weight: 500; }
+
   /* ── ROADMAP ── */
   .roadmap { background: var(--parchment); }
 
@@ -646,6 +837,9 @@
     .cs-impact { grid-template-columns: 1fr 1fr; }
     .roadmap-phases { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: 1fr 1fr; }
+    .haven-summary { grid-template-columns: 1fr; }
+    .haven-bm-grid { grid-template-columns: 1fr 1fr; }
+    .haven-findings { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -660,6 +854,7 @@
     <ul class="nav-links">
       <li><a href="#results">Results</a></li>
       <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#haven-audit">Audit Work</a></li>
       <li><a href="#roadmap">Roadmap</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
