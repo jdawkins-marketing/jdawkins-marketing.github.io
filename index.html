@@ -732,6 +732,57 @@
     font-weight: 400;
   }
 
+  /* ── HOW I WORK ── */
+  .how-i-work {
+    background: var(--parchment);
+    border-top: 1px solid rgba(42,92,30,0.1);
+    border-bottom: 1px solid rgba(42,92,30,0.1);
+  }
+
+  /* ── HOW I WORK LAYOUT ── */
+  .hiw-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hiw-photo-wrap {
+    flex-shrink: 0;
+  }
+
+  .hiw-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid var(--cream);
+    box-shadow: 0 8px 32px rgba(42,92,30,0.18);
+    display: block;
+  }
+
+  .hiw-text .section-title {
+    margin-bottom: 20px;
+  }
+
+  .hiw-text p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #444;
+    font-weight: 300;
+  }
+
+  @media (max-width: 600px) {
+    .hiw-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .hiw-photo {
+      margin: 0 auto;
+    }
+  }
+
   /* ── CONTACT ── */
   .contact {
     background: var(--soil);
@@ -924,19 +975,19 @@
   </nav>
 
   <div class="hero-body">
-    <p class="hero-eyebrow">Lifecycle & Retention Marketing</p>
+    <p class="hero-eyebrow">Retention, Lifecycle & Customer Journey Strategy</p>
     <h1 class="hero-name">
       Jazmin<br>
       Dawkins
-      <em>eCommerce Growth & Retention</em>
+      <em>eCommerce DTC Specialist</em>
     </h1>
-    <p class="hero-tagline">I design lifecycle systems that turn first-time buyers into repeat customers — increasing retention revenue, subscription adoption, and CLTV.</p>
+    <p class="hero-tagline">I help DTC brands grow by fixing the points where revenue is quietly won or lost — from welcome and post-purchase to subscription, segmentation, and repeat purchase.</p>
     <div class="hero-pills">
       <span class="pill">Klaviyo</span>
       <span class="pill">Shopify</span>
       <span class="pill">Recharge</span>
-      <span class="pill">CRM Architecture</span>
-      <span class="pill">Segmentation</span>
+      <span class="pill">Email / SMS</span>
+      <span class="pill">Subscription UX</span>
       <span class="pill">Deliverability</span>
     </div>
   </div>
@@ -978,23 +1029,23 @@
     <div class="operate-grid reveal">
       <div class="operate-left">
         <div class="section-label">Approach</div>
-        <h2 class="section-title">Built for retention,<br><em style="font-style:italic; color: var(--bark);">not just campaigns</em></h2>
-        <p>I own <strong>retention + subscription growth</strong> end-to-end: email/SMS flows, lifecycle architecture, deliverability, and subscription UX.</p>
-        <p>I build <strong>education-first journeys</strong> that move customers from first order → habit → repeat. That means lifecycle aligns with your site experience, launches, inventory, and paid acquisition — not just what goes out in Klaviyo.</p>
-        <p>I prove impact using <strong>retention curves (30/60/90)</strong>, churn, subscription attach, and cohort LTV — not vanity metrics.</p>
+        <h2 class="section-title">I build retention systems,<br><em style="font-style:italic; color: var(--bark);">not just campaigns</em></h2>
+        <p>My strongest work is in the space between <strong>customer psychology and business performance.</strong></p>
+        <p>I look at where people hesitate, where trust breaks down, where messaging gets too broad, and where the journey is leaking repeat purchase. Then I turn that into smarter lifecycle structure across email, SMS, subscription, post-purchase, and onsite experience.</p>
+        <p>That means retention is not working in isolation — it connects to your PDPs, launches, inventory, offers, and customer education, so <strong>the whole system gets stronger, not just the inbox.</strong></p>
       </div>
       <div class="operate-cards">
         <div class="op-card">
           <div class="op-card-title">Build / Repair</div>
-          <p>Flow architecture, list health, event tracking, and reporting dashboards built from the ground up or audited and rebuilt.</p>
+          <p>Flow architecture, list health, event logic, and reporting foundations built from scratch or rebuilt after performance drift.</p>
         </div>
         <div class="op-card">
           <div class="op-card-title">Optimize</div>
-          <p>Cadence & timing, testing roadmap, offer logic, education-first onboarding, and post-purchase sequencing.</p>
+          <p>Cadence, timing, offer logic, onboarding, replenishment, and post-purchase sequencing designed to improve repeat behavior.</p>
         </div>
         <div class="op-card">
           <div class="op-card-title">Align</div>
-          <p>Lifecycle with site experience, product launches, inventory, and paid acquisition — so retention compounds instead of fighting for attention.</p>
+          <p>Lifecycle connected to site experience, merchandising, product launches, and paid traffic so retention compounds over time.</p>
         </div>
       </div>
     </div>
@@ -1006,9 +1057,9 @@
   <div class="section-inner">
     <div class="section-label reveal">Case Study</div>
     <h2 class="section-title reveal">Rebuilding Revenue Infrastructure<br><span style="opacity:0.6; font-size:0.75em;">DTC Skincare Brand · Shopify + Klaviyo</span></h2>
+    <p class="reveal" style="color: rgba(245,240,227,0.7); font-size: 1rem; line-height: 1.8; font-weight: 300; max-width: 700px; margin-bottom: 40px;">This brand had demand, but too much growth was being carried by paid traffic. AOV was low, deliverability was weak, subscription adoption was underperforming, and retention was not yet functioning like a real growth lever. I rebuilt the lifecycle and site foundation to improve trust, repeat purchase, subscription uptake, and long-term customer value.</p>
 
     <div class="cs-grid reveal">
-      <div class="cs-block">
         <div class="cs-block-title">The Situation</div>
         <ul>
           <li>Growth heavily dependent on Meta and influencer spend</li>
@@ -1289,6 +1340,23 @@
       <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Loox</span></div>
       <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">PageFly</span></div>
       <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">ShipStation</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW I WORK ── -->
+<section class="how-i-work">
+  <div class="section-inner">
+    <div class="hiw-grid reveal">
+      <div class="hiw-photo-wrap">
+        <img src="data:image/jpeg;base64,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" alt="Jazmin Dawkins" class="hiw-photo">
+      </div>
+      <div class="hiw-text">
+        <div class="section-label">Working with me</div>
+        <h2 class="section-title">How I work</h2>
+        <p>I'm thoughtful, direct, and highly observant. I care about finding the real issue, not just the visible one. The best work usually comes from improving the system underneath the symptom — and that takes someone willing to look past the dashboard and ask what's actually going on with the customer.</p>
+        <p style="margin-top: 16px;">Open to remote roles in lifecycle, retention, and ecommerce growth.</p>
+      </div>
     </div>
   </div>
 </section>
