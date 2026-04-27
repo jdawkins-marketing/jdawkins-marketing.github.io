@@ -463,7 +463,7 @@
   }
 
   .haven-bottom-line {
-    background: var(--forest);
+    background: #6D2E46;
     border-radius: 14px;
     padding: 32px;
   }
@@ -472,27 +472,25 @@
     font-size: 0.65rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--sage);
+    color: #A26769;
     margin-bottom: 12px;
   }
 
   .haven-bottom-line p {
     font-size: 0.92rem;
-    color: rgba(245,240,227,0.8);
+    color: rgba(236,226,208,0.9);
     line-height: 1.75;
     font-weight: 300;
     font-style: italic;
   }
 
-  .haven-benchmarks {
-    margin-bottom: 56px;
-  }
+  .haven-benchmarks { margin-bottom: 56px; }
 
   .haven-bm-title {
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--sage);
+    color: #A26769;
     margin-bottom: 20px;
   }
 
@@ -500,67 +498,44 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    border: 1px solid rgba(42,92,30,0.14);
+    border: 1px solid rgba(109,46,70,0.15);
     border-radius: 14px;
     overflow: hidden;
   }
 
   .haven-flow {
     padding: 28px 24px;
-    border-right: 1px solid rgba(42,92,30,0.12);
+    border-right: 1px solid rgba(109,46,70,0.12);
     background: var(--parchment);
   }
   .haven-flow:last-child { border-right: none; }
-  .haven-flow.highlight-flow { background: rgba(42,92,30,0.07); }
+  .haven-flow.highlight-flow { background: rgba(109,46,70,0.06); }
 
   .haven-flow-name {
     font-size: 0.78rem;
     font-weight: 500;
-    color: var(--forest);
+    color: #6D2E46;
     margin-bottom: 16px;
     letter-spacing: 0.02em;
   }
 
-  .haven-metrics {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
+  .haven-metrics { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 
-  .haven-metric {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+  .haven-metric { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
 
-  .hm-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    line-height: 1;
-  }
-  .hm-val.above { color: var(--forest); }
-  .hm-val.below { color: var(--bark); }
+  .hm-val { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1; }
+  .hm-val.above { color: #6D2E46; }
+  .hm-val.below { color: #A26769; }
 
-  .hm-label {
-    font-size: 0.68rem;
-    color: #888;
-    flex: 1;
-  }
-
-  .hm-peer {
-    font-size: 0.62rem;
-    color: #aaa;
-    width: 100%;
-  }
+  .hm-label { font-size: 0.68rem; color: #888; flex: 1; }
+  .hm-peer { font-size: 0.62rem; color: #aaa; width: 100%; }
 
   .haven-flow-note {
     font-size: 0.7rem;
-    color: var(--sage);
+    color: #A26769;
     font-style: italic;
     line-height: 1.4;
-    border-top: 1px solid rgba(42,92,30,0.1);
+    border-top: 1px solid rgba(109,46,70,0.1);
     padding-top: 10px;
     margin-top: 4px;
   }
@@ -573,16 +548,20 @@
 
   .haven-finding {
     background: var(--parchment);
-    border: 1px solid rgba(42,92,30,0.12);
+    border: 1px solid rgba(109,46,70,0.12);
     border-radius: 14px;
     padding: 32px;
-    position: relative;
+  }
+
+  /* 5th finding spans full width */
+  .haven-finding:last-child {
+    grid-column: 1 / -1;
   }
 
   .haven-finding-num {
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
-    color: rgba(42,92,30,0.1);
+    color: rgba(109,46,70,0.12);
     line-height: 1;
     margin-bottom: 8px;
   }
@@ -597,14 +576,8 @@
     margin-bottom: 12px;
     font-weight: 500;
   }
-  .haven-finding-priority.high {
-    background: rgba(92,61,30,0.12);
-    color: var(--bark);
-  }
-  .haven-finding-priority.med {
-    background: rgba(42,92,30,0.1);
-    color: var(--moss);
-  }
+  .haven-finding-priority.high { background: rgba(109,46,70,0.1); color: #6D2E46; }
+  .haven-finding-priority.med { background: rgba(162,103,105,0.12); color: #A26769; }
 
   .haven-finding-title {
     font-size: 0.92rem;
@@ -624,14 +597,13 @@
 
   .haven-rec {
     font-size: 0.82rem;
-    color: var(--forest);
+    color: #6D2E46;
     line-height: 1.6;
     padding: 12px 16px;
-    background: rgba(42,92,30,0.06);
+    background: rgba(109,46,70,0.06);
     border-radius: 8px;
-    border-left: 2px solid var(--forest);
+    border-left: 2px solid #6D2E46;
   }
-
   .haven-rec strong { font-weight: 500; }
 
   /* ── ROADMAP ── */
@@ -949,6 +921,7 @@
     .haven-summary { grid-template-columns: 1fr; }
     .haven-bm-grid { grid-template-columns: 1fr 1fr; }
     .haven-findings { grid-template-columns: 1fr; }
+    .haven-finding:last-child { grid-column: 1; }
 
     .contact { padding: 60px 24px; }
   }
@@ -1071,7 +1044,7 @@
         <div class="cs-block-title">The Situation</div>
         <ul>
           <li>Growth heavily dependent on Meta and influencer spend</li>
-          <li>AOV ~$18 limiting LTV potential</li>
+          <li>AOV ~$20 limiting LTV potential</li>
           <li>Deliverability issues causing poor inbox placement</li>
           <li>No structured loyalty or retention engine</li>
           <li>Weak subscription adoption, churn trending up</li>
@@ -1128,139 +1101,98 @@
 <section class="haven-audit" id="haven-audit">
   <div class="section-inner">
     <div class="section-label reveal">Audit Work</div>
-    <h2 class="section-title reveal">Klaviyo Lifecycle Audit<br><span style="opacity:0.55; font-size:0.72em;">Haven · Premium Home Textiles DTC Brand</span></h2>
+    <h2 class="section-title reveal">Klaviyo Lifecycle Audit<br><span style="opacity:0.55; font-size:0.72em;">Haven · Women's Basics & Loungewear · DTC Apparel</span></h2>
 
     <div class="haven-summary reveal">
       <div class="haven-summary-text">
-        <p>Haven had a real lifecycle foundation — flows generating meaningful revenue, checkout recovery performing at 3× benchmark. But the account was leaving significant opportunity on the table: opens without clicks, acquisition optimized for volume over purchase-readiness, and a post-purchase sequence that assumed too much and built too little confidence.</p>
-        <p>I audited the full Klaviyo account against peer benchmarks and surfaced four prioritized findings with clear, sequenced recommendations.</p>
+        <p>Haven had real acquisition momentum — a clean list, a strong welcome flow, and cart recovery working near benchmark. But first-time buyers weren't coming back. Post-purchase repeat rate was 11.3% at 90 days against a 25–30% peer benchmark. The brand was acquiring well and retaining poorly.</p>
+        <p>I audited the full Klaviyo account and surfaced five prioritized findings — from post-purchase drop-off and winback failure to discount dependency and behavioral segmentation gaps.</p>
       </div>
       <div class="haven-bottom-line">
         <div class="haven-bl-label">Bottom Line</div>
-        <p>The biggest gains come from improving subscriber quality-to-journey fit, strengthening post-purchase lifecycle depth, and making campaigns and cart messaging more relevant and confidence-building.</p>
+        <p>Haven is acquiring well but not retaining. The opportunity is in deepening the post-purchase journey, reducing discount dependency, and making every send feel personally relevant to where the customer is in their relationship with the brand.</p>
       </div>
     </div>
 
-    <!-- Benchmark comparison table -->
+    <!-- Benchmark table -->
     <div class="haven-benchmarks reveal">
       <div class="haven-bm-title">Flow Performance vs. Peer Benchmark · Last 30 Days</div>
       <div class="haven-bm-grid">
-        <div class="haven-flow">
+        <div class="haven-flow highlight-flow">
           <div class="haven-flow-name">Welcome Flow</div>
           <div class="haven-metrics">
-            <div class="haven-metric">
-              <span class="hm-val above">52.8%</span>
-              <span class="hm-label">Open Rate</span>
-              <span class="hm-peer">peer 51.9%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val below">1.82%</span>
-              <span class="hm-label">Click Rate</span>
-              <span class="hm-peer">peer 4.33%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val below">$1.94</span>
-              <span class="hm-label">Rev / Recipient</span>
-              <span class="hm-peer">peer $5.10</span>
-            </div>
+            <div class="haven-metric"><span class="hm-val above">58.4%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
+            <div class="haven-metric"><span class="hm-val above">4.71%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
+            <div class="haven-metric"><span class="hm-val above">$5.38</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
           </div>
-          <div class="haven-flow-note">Opens healthy — clicks & revenue well below</div>
+          <div class="haven-flow-note">Above benchmark — strongest flow</div>
+        </div>
+        <div class="haven-flow">
+          <div class="haven-flow-name">Post-Purchase</div>
+          <div class="haven-metrics">
+            <div class="haven-metric"><span class="hm-val above">54.2%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
+            <div class="haven-metric"><span class="hm-val below">2.18%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
+            <div class="haven-metric"><span class="hm-val below">$1.86</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
+          </div>
+          <div class="haven-flow-note">Opens healthy — repeat purchase lags</div>
+        </div>
+        <div class="haven-flow">
+          <div class="haven-flow-name">Winback Flow</div>
+          <div class="haven-metrics">
+            <div class="haven-metric"><span class="hm-val below">31.7%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
+            <div class="haven-metric"><span class="hm-val below">1.04%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
+            <div class="haven-metric"><span class="hm-val below">$0.74</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
+          </div>
+          <div class="haven-flow-note">Weakest flow — needs a rebuild</div>
         </div>
         <div class="haven-flow">
           <div class="haven-flow-name">Abandon Cart</div>
           <div class="haven-metrics">
-            <div class="haven-metric">
-              <span class="hm-val above">56.4%</span>
-              <span class="hm-label">Open Rate</span>
-              <span class="hm-peer">peer 51.9%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val below">3.42%</span>
-              <span class="hm-label">Click Rate</span>
-              <span class="hm-peer">peer 4.33%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val above">$5.10</span>
-              <span class="hm-label">Rev / Recipient</span>
-              <span class="hm-peer">peer $5.10</span>
-            </div>
+            <div class="haven-metric"><span class="hm-val above">55.8%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
+            <div class="haven-metric"><span class="hm-val below">3.94%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
+            <div class="haven-metric"><span class="hm-val below">$4.42</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
           </div>
-          <div class="haven-flow-note">At benchmark — click rate still lags</div>
-        </div>
-        <div class="haven-flow highlight-flow">
-          <div class="haven-flow-name">Checkout Recovery</div>
-          <div class="haven-metrics">
-            <div class="haven-metric">
-              <span class="hm-val above">59.3%</span>
-              <span class="hm-label">Open Rate</span>
-              <span class="hm-peer">peer 51.9%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val above">4.98%</span>
-              <span class="hm-label">Click Rate</span>
-              <span class="hm-peer">peer 4.33%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val above">$13.85</span>
-              <span class="hm-label">Rev / Recipient</span>
-              <span class="hm-peer">peer $5.10</span>
-            </div>
-          </div>
-          <div class="haven-flow-note">3× benchmark — strongest flow by far</div>
-        </div>
-        <div class="haven-flow">
-          <div class="haven-flow-name">Post-Delivery</div>
-          <div class="haven-metrics">
-            <div class="haven-metric">
-              <span class="hm-val above">61.7%</span>
-              <span class="hm-label">Open Rate</span>
-              <span class="hm-peer">peer 51.9%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val below">2.18%</span>
-              <span class="hm-label">Click Rate</span>
-              <span class="hm-peer">peer 4.33%</span>
-            </div>
-            <div class="haven-metric">
-              <span class="hm-val below">$0.96</span>
-              <span class="hm-label">Rev / Recipient</span>
-              <span class="hm-peer">peer $5.10</span>
-            </div>
-          </div>
-          <div class="haven-flow-note">Highest opens — lowest revenue</div>
+          <div class="haven-flow-note">Near benchmark — click rate gap</div>
         </div>
       </div>
     </div>
 
-    <!-- 4 Findings -->
+    <!-- 5 Findings -->
     <div class="haven-findings reveal">
       <div class="haven-finding">
         <div class="haven-finding-num">01</div>
         <div class="haven-finding-priority high">High Priority</div>
-        <div class="haven-finding-title">Welcome Softness Is Tied to Source Quality, Not Flow Structure</div>
-        <p>Opens were healthy but clicks and revenue lagged significantly behind benchmark. After reviewing the flow, the creative was stronger than it first appeared — the real issue was upstream: mixed-intent subscriber entry from incentive-led acquisition diluting welcome efficiency.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Source-aware welcome analysis; branch mixed-intent entrants differently; treat acquisition quality as the larger lever.</div>
+        <div class="haven-finding-title">Welcome Is Strong But Acquisition Mix Is Creating a Ceiling</div>
+        <p>The welcome flow performs above benchmark overall — but performance varies significantly by opt-in source. Incentive-led and contest-driven entrants show weaker downstream conversion than direct or browse-intent sign-ups. The flow is doing its job; a portion of the audience entering it isn't ready for the conversion pressure it applies.</p>
+        <div class="haven-rec"><strong>Rec:</strong> Conduct a source-level welcome analysis. Determine whether incentive-led entrants need a longer nurture arc before purchase messaging begins. Optimize for list quality alongside list growth.</div>
       </div>
       <div class="haven-finding">
         <div class="haven-finding-num">02</div>
         <div class="haven-finding-priority high">High Priority</div>
-        <div class="haven-finding-title">Acquisition Optimized for Volume Over Purchase-Readiness</div>
-        <p>Top opt-in sources were dominated by a "Win a Free Product" quiz and sale-based fullscreen forms — effective for list growth but feeding curiosity-driven subscribers into the same path as purchase-ready ones.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Review acquisition quality by source; give quiz/promo entrants a differentiated early journey with stronger education before conversion pressure increases.</div>
+        <div class="haven-finding-title">First-to-Second Purchase Drop-Off Is the Biggest Revenue Gap</div>
+        <p>Post-purchase opens are solid at 54.2%, but repeat purchase rate is 11.3% at 90 days — well below the 25–30% benchmark for retained DTC customers. The sequence makes multiple asks (review, referral, cross-sell, community) without a clear progression. Customers feel pulled in different directions rather than guided toward a natural next step.</p>
+        <div class="haven-rec"><strong>Rec:</strong> Rebuild post-purchase around a confidence-first arc — reinforce the purchase, provide product education and inspiration, then introduce the single most relevant next action. Measure success by 90-day repeat purchase rate, not email engagement.</div>
       </div>
       <div class="haven-finding">
         <div class="haven-finding-num">03</div>
         <div class="haven-finding-priority med">Medium-High</div>
-        <div class="haven-finding-title">Post-Delivery Underuses a High-Value Retention Moment</div>
-        <p>Post-delivery emails got the highest open rate (61.7%) but the lowest revenue per recipient ($0.96). The sequence was fragmented — support, survey, cross-sell, community, promo, and referral with no clear arc. One email assumed all buyers had a pet, creating an immediate "is this for me?" moment right when confidence should be peaking.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Refocus post-delivery around a confident, inclusive progression — reinforce the purchase, provide ownership education, inspire, then introduce secondary actions.</div>
+        <div class="haven-finding-title">Winback Flow Is Not Converting — Wrong Timing, Wrong Message</div>
+        <p>The winback flow is the weakest in the account: 31.7% open rate, 1.04% click rate, 3.2% recovery rate. It's triggering too late and leading with discounts rather than reminding customers why they loved the brand. Discount-first winback also trains customers to lapse intentionally to receive offers.</p>
+        <div class="haven-rec"><strong>Rec:</strong> Shorten the trigger window. Lead with brand inspiration and new arrivals relevant to past purchase behavior. Reserve any discount for the final send as a last resort. Test a no-discount sequence against the current approach.</div>
       </div>
       <div class="haven-finding">
         <div class="haven-finding-num">04</div>
+        <div class="haven-finding-priority high">High Priority</div>
+        <div class="haven-finding-title">Campaign Strategy Is Discount-Dependent and Margin-Eroding</div>
+        <p>Discount-led sends significantly outperform non-promotional sends, but the gap is narrowing as customers become conditioned to wait for offers. Non-promo click rates are below benchmark. Broad "shop the collection" CTAs are consistently underperforming more specific, product-led paths. The campaign is reaching the right people with the wrong message.</p>
+        <div class="haven-rec"><strong>Rec:</strong> Build a planned promotional-to-non-promotional ratio into the campaign calendar. Develop editorial content, product storytelling, and styling-led sends that earn the click without an offer. Use behavioral segments to send product-specific campaigns based on demonstrated interest.</div>
+      </div>
+      <div class="haven-finding">
+        <div class="haven-finding-num">05</div>
         <div class="haven-finding-priority med">Medium-High</div>
-        <div class="haven-finding-title">Campaigns and Cart Recovery Need Confidence, Not Hesitation Language</div>
-        <p>Campaign open rate beat peers (51.4%) but click rate was rated Poor (0.31% vs. 0.95% peer). People were opening out of habit — not because content felt relevant. "On the fence?" language appeared across flows, naming and reinforcing hesitation rather than building confidence toward a decision.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Replace hesitation-forward language with confidence-forward framing. Activate behavioral segments more intentionally; bring PDP-level confidence cues into the email itself.</div>
+        <div class="haven-finding-title">Segmentation Is Engagement-Based — Missing Behavioral and Product Signals</div>
+        <p>Campaign audiences are built around recency of engagement — active 30, 60, 90 days. This tells you how warm someone is, but nothing about what they want or what they've been looking at. A customer who bought loungewear last month receives the same campaign as someone who only browsed outerwear once. Browse behavior, product category interest, and purchase history are all available in the account — the activation is the missing piece.</p>
+        <div class="haven-rec"><strong>Rec:</strong> Build behavioral and product-interest segments for at least two upcoming campaign sends. Use past purchase to inform what to show next. Relevance earns the click that discounts are currently buying — and rebuilds non-promo performance without margin erosion.</div>
       </div>
     </div>
 
