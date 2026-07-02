@@ -3,1330 +3,910 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jazmin Dawkins — Lifecycle & Retention</title>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XM5VTFZKJ6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XM5VTFZKJ6');
-</script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Jazmin Dawkins — Lifecycle &amp; Retention</title>
 <style>
-  :root {
-    --forest: #2A5C1E;
-    --moss: #4A7C3F;
-    --sage: #7A9E6F;
-    --cream: #F5F0E3;
-    --parchment: #EDE6D0;
-    --bark: #5C3D1E;
-    --soil: #3B2A14;
-    --ink: #1C1C18;
-    --mist: #E8F0E4;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    background: var(--forest);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: 0;
-    position: relative;
-    overflow: visible;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0; right: 0;
-    height: 80px;
-    background: var(--cream);
-    clip-path: ellipse(55% 100% at 50% 100%);
-  }
-
-  /* spore ring decoration */
-  .hero-rings {
-    position: absolute;
-    top: -120px;
-    right: -120px;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.06);
-    pointer-events: none;
-  }
-  .hero-rings::before {
-    content: '';
-    position: absolute;
-    inset: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .hero-rings::after {
-    content: '';
-    position: absolute;
-    inset: 90px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.02);
-  }
-
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 60px;
-    position: relative;
-    z-index: 200;
-  }
-
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    color: var(--cream);
-    font-size: 1rem;
-    letter-spacing: 0.05em;
-    opacity: 0.85;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 36px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: rgba(245,240,227,0.65);
-    text-decoration: none;
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--cream); }
-
-  .hero-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 60px 60px 100px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-eyebrow {
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-
-  .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3.5rem, 7vw, 6rem);
-    color: var(--cream);
-    line-height: 1.0;
-    letter-spacing: -0.01em;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.35s forwards;
-  }
-
-  .hero-name em {
-    display: block;
-    font-style: italic;
-    color: rgba(245,240,227,0.5);
-    font-size: 0.6em;
-  }
-
-  .hero-tagline {
-    margin-top: 28px;
-    font-size: 1.05rem;
-    color: rgba(245,240,227,0.7);
-    max-width: 560px;
-    line-height: 1.7;
-    font-weight: 300;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.5s forwards;
-  }
-
-  .hero-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 36px;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.65s forwards;
-  }
-
-  .pill {
-    padding: 6px 16px;
-    border: 1px solid rgba(245,240,227,0.25);
-    border-radius: 100px;
-    font-size: 0.72rem;
-    color: rgba(245,240,227,0.75);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    backdrop-filter: blur(4px);
-    background: rgba(255,255,255,0.04);
-  }
-
-  .hero-scroll {
-    padding: 0 60px 60px;
-    position: relative;
-    z-index: 2;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.1s forwards;
-  }
-
-  .scroll-line {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: rgba(245,240,227,0.3);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  .scroll-line::before {
-    content: '';
-    width: 40px;
-    height: 1px;
-    background: rgba(245,240,227,0.25);
-  }
-
-  /* ── SECTIONS ── */
-  section { position: relative; }
-
-  .section-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 100px 60px;
-  }
-
-  .section-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    max-width: 40px;
-    height: 1px;
-    background: var(--sage);
-    opacity: 0.5;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 3.5vw, 2.8rem);
-    color: var(--forest);
-    line-height: 1.2;
-    margin-bottom: 48px;
-  }
-
-  /* ── RESULTS STRIP ── */
-  .results {
-    background: var(--parchment);
-    border-top: 1px solid rgba(42,92,30,0.1);
-    border-bottom: 1px solid rgba(42,92,30,0.1);
-  }
-
-  .results-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-  }
-
-  .result-item {
-    padding: 52px 40px;
-    border-right: 1px solid rgba(42,92,30,0.12);
-    position: relative;
-    transition: background 0.3s;
-  }
-  .result-item:last-child { border-right: none; }
-  .result-item:hover { background: rgba(42,92,30,0.04); }
-
-  .result-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    color: var(--forest);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .result-label {
-    font-size: 0.78rem;
-    color: var(--bark);
-    line-height: 1.5;
-    font-weight: 400;
-  }
-
-  .result-detail {
-    font-size: 0.68rem;
-    color: var(--sage);
-    margin-top: 6px;
-    letter-spacing: 0.04em;
-  }
-
-  /* ── HOW I OPERATE ── */
-  .operate { background: var(--cream); }
-
-  .operate-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-
-  .operate-left p {
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: #444;
-    font-weight: 300;
-    margin-bottom: 20px;
-  }
-
-  .operate-left p strong {
-    color: var(--forest);
-    font-weight: 500;
-  }
-
-  .operate-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .op-card {
-    background: var(--parchment);
-    border: 1px solid rgba(42,92,30,0.1);
-    border-radius: 12px;
-    padding: 24px 28px;
-    border-left: 3px solid var(--forest);
-  }
-
-  .op-card-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--forest);
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
-
-  .op-card p {
-    font-size: 0.88rem;
-    color: #555;
-    line-height: 1.6;
-  }
-
-  /* ── CASE STUDY ── */
-  .case-study { background: var(--forest); }
-  .case-study .section-title { color: var(--cream); }
-  .case-study .section-label { color: var(--sage); }
-
-  .cs-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-  }
-
-  .cs-block {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    padding: 36px;
-  }
-
-  .cs-block-title {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 16px;
-  }
-
-  .cs-block p {
-    font-size: 0.9rem;
-    color: rgba(245,240,227,0.7);
-    line-height: 1.75;
-    font-weight: 300;
-  }
-
-  .cs-block ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .cs-block li {
-    font-size: 0.88rem;
-    color: rgba(245,240,227,0.72);
-    line-height: 1.55;
-    padding-left: 16px;
-    position: relative;
-  }
-
-  .cs-block li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--sage);
-    font-size: 0.75rem;
-  }
-
-  .cs-impact {
-    grid-column: 1 / -1;
-    background: rgba(245,240,227,0.06);
-    border: 1px solid rgba(245,240,227,0.15);
-    border-radius: 16px;
-    padding: 40px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-  }
-
-  .cs-stat {
-    padding: 0 32px;
-    border-right: 1px solid rgba(255,255,255,0.1);
-  }
-  .cs-stat:first-child { padding-left: 0; }
-  .cs-stat:last-child { border-right: none; }
-
-  .cs-stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    color: var(--cream);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .cs-stat-label {
-    font-size: 0.78rem;
-    color: rgba(245,240,227,0.5);
-    line-height: 1.4;
-  }
-
-  /* ── HAVEN AUDIT ── */
-  .haven-audit { background: var(--cream); }
-
-  .haven-summary {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 56px;
-    align-items: start;
-  }
-
-  .haven-summary-text p {
-    font-size: 0.95rem;
-    line-height: 1.8;
-    color: #555;
-    font-weight: 300;
-    margin-bottom: 14px;
-  }
-
-  .haven-bottom-line {
-    background: #6D2E46;
-    border-radius: 14px;
-    padding: 32px;
-  }
-
-  .haven-bl-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #A26769;
-    margin-bottom: 12px;
-  }
-
-  .haven-bottom-line p {
-    font-size: 0.92rem;
-    color: rgba(236,226,208,0.9);
-    line-height: 1.75;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .haven-benchmarks { margin-bottom: 56px; }
-
-  .haven-bm-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #A26769;
-    margin-bottom: 20px;
-  }
-
-  .haven-bm-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 1px solid rgba(109,46,70,0.15);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  .haven-flow {
-    padding: 28px 24px;
-    border-right: 1px solid rgba(109,46,70,0.12);
-    background: var(--parchment);
-  }
-  .haven-flow:last-child { border-right: none; }
-  .haven-flow.highlight-flow { background: rgba(109,46,70,0.06); }
-
-  .haven-flow-name {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: #6D2E46;
-    margin-bottom: 16px;
-    letter-spacing: 0.02em;
-  }
-
-  .haven-metrics { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-
-  .haven-metric { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
-
-  .hm-val { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1; }
-  .hm-val.above { color: #6D2E46; }
-  .hm-val.below { color: #A26769; }
-
-  .hm-label { font-size: 0.68rem; color: #888; flex: 1; }
-  .hm-peer { font-size: 0.62rem; color: #aaa; width: 100%; }
-
-  .haven-flow-note {
-    font-size: 0.7rem;
-    color: #A26769;
-    font-style: italic;
-    line-height: 1.4;
-    border-top: 1px solid rgba(109,46,70,0.1);
-    padding-top: 10px;
-    margin-top: 4px;
-  }
-
-  .haven-findings {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .haven-finding {
-    background: var(--parchment);
-    border: 1px solid rgba(109,46,70,0.12);
-    border-radius: 14px;
-    padding: 32px;
-  }
-
-  /* 5th finding spans full width */
-  .haven-finding:last-child {
-    grid-column: 1 / -1;
-  }
-
-  .haven-finding-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: rgba(109,46,70,0.12);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .haven-finding-priority {
-    display: inline-block;
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 100px;
-    margin-bottom: 12px;
-    font-weight: 500;
-  }
-  .haven-finding-priority.high { background: rgba(109,46,70,0.1); color: #6D2E46; }
-  .haven-finding-priority.med { background: rgba(162,103,105,0.12); color: #A26769; }
-
-  .haven-finding-title {
-    font-size: 0.92rem;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.4;
-    margin-bottom: 12px;
-  }
-
-  .haven-finding p {
-    font-size: 0.84rem;
-    color: #666;
-    line-height: 1.7;
-    font-weight: 300;
-    margin-bottom: 14px;
-  }
-
-  .haven-rec {
-    font-size: 0.82rem;
-    color: #6D2E46;
-    line-height: 1.6;
-    padding: 12px 16px;
-    background: rgba(109,46,70,0.06);
-    border-radius: 8px;
-    border-left: 2px solid #6D2E46;
-  }
-  .haven-rec strong { font-weight: 500; }
-
-  /* ── ROADMAP ── */
-  .roadmap { background: var(--parchment); }
-
-  .roadmap-phases {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0;
-    border: 1px solid rgba(42,92,30,0.15);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .phase {
-    padding: 32px 24px;
-    border-right: 1px solid rgba(42,92,30,0.12);
-    transition: background 0.25s;
-    cursor: default;
-  }
-  .phase:last-child { border-right: none; }
-  .phase:hover { background: rgba(42,92,30,0.05); }
-
-  .phase-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: rgba(42,92,30,0.15);
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-
-  .phase-title {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--forest);
-    letter-spacing: 0.04em;
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-
-  .phase-days {
-    font-size: 0.65rem;
-    color: var(--sage);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-
-  .phase-items {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .phase-items li {
-    font-size: 0.78rem;
-    color: #666;
-    line-height: 1.4;
-    padding-left: 12px;
-    position: relative;
-  }
-
-  .phase-items li::before {
-    content: '·';
-    position: absolute;
-    left: 0;
-    color: var(--sage);
-  }
-
-  /* ── TOOLS ── */
-  .tools { background: var(--cream); }
-
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .tool-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 20px 24px;
-    border: 1px solid rgba(42,92,30,0.12);
-    border-radius: 10px;
-    background: var(--parchment);
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .tool-item:hover {
-    border-color: var(--moss);
-    transform: translateY(-2px);
-  }
-
-  .tool-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--forest);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .tool-name {
-    font-size: 0.88rem;
-    color: var(--ink);
-    font-weight: 400;
-  }
-
-  /* ── HOW I WORK ── */
-  .how-i-work {
-    background: var(--parchment);
-    border-top: 1px solid rgba(42,92,30,0.1);
-    border-bottom: 1px solid rgba(42,92,30,0.1);
-  }
-
-  /* ── HOW I WORK LAYOUT ── */
-  .hiw-grid {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 60px;
-    align-items: center;
-  }
-
-  .hiw-photo-wrap {
-    flex-shrink: 0;
-  }
-
-  .hiw-photo {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    border: 4px solid var(--cream);
-    box-shadow: 0 8px 32px rgba(42,92,30,0.18);
-    display: block;
-  }
-
-  .hiw-text .section-title {
-    margin-bottom: 20px;
-  }
-
-  .hiw-text p {
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: #444;
-    font-weight: 300;
-  }
-
-  @media (max-width: 600px) {
-    .hiw-grid {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
-    .hiw-photo {
-      margin: 0 auto;
-    }
-  }
-
-  /* ── CONTACT ── */
-  .contact {
-    background: var(--soil);
-    padding: 80px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .contact::before {
-    content: '';
-    position: absolute;
-    top: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 160px;
-    background: var(--cream);
-    clip-path: ellipse(50% 100% at 50% 0%);
-  }
-
-  .contact-inner { position: relative; z-index: 1; }
-
-  .contact h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
-    color: var(--cream);
-    margin-bottom: 16px;
-  }
-
-  .contact p {
-    color: rgba(245,240,227,0.55);
-    font-size: 0.95rem;
-    margin-bottom: 36px;
-    font-weight: 300;
-  }
-
-  .contact-link {
-    display: inline-block;
-    padding: 14px 40px;
-    background: var(--cream);
-    color: var(--forest);
-    text-decoration: none;
-    border-radius: 100px;
-    font-size: 0.82rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-weight: 500;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .contact-link:hover {
-    background: var(--parchment);
-    transform: translateY(-2px);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── DIVIDER ── */
-  .spore-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 20px 0;
-    opacity: 0.3;
-  }
-  .spore-divider::before, .spore-divider::after {
-    content: '';
-    flex: 1;
-    max-width: 120px;
-    height: 1px;
-    background: var(--forest);
-  }
-  .spore-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--forest);
-  }
-
-  /* ── HAMBURGER ── */
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 4px;
-    background: none;
-    border: none;
-  }
-  .nav-toggle span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: rgba(245,240,227,0.8);
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  @media (max-width: 768px) {
-    nav {
-      padding: 20px 24px;
-      position: relative;
-    }
-    .nav-toggle { display: flex; }
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      gap: 0;
-      position: absolute;
-      top: 100%;
-      left: 0; right: 0;
-      background: #1E4415;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      z-index: 200;
-      padding: 8px 0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    }
-    .nav-links.open { display: flex; }
-    .nav-links li a {
-      display: block;
-      padding: 14px 24px;
-      font-size: 0.85rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .hero-body { padding: 40px 24px 80px; }
-    .hero-scroll { padding: 0 24px 40px; }
-    .section-inner { padding: 60px 24px; }
-
-    .results-grid { grid-template-columns: 1fr 1fr; }
-    .result-item { padding: 36px 24px; }
-
-    .operate-grid, .cs-grid { grid-template-columns: 1fr; }
-    .cs-impact { grid-template-columns: 1fr 1fr; }
-    .roadmap-phases { grid-template-columns: 1fr; }
-    .tools-grid { grid-template-columns: 1fr 1fr; }
-
-    .haven-summary { grid-template-columns: 1fr; }
-    .haven-bm-grid { grid-template-columns: 1fr 1fr; }
-    .haven-findings { grid-template-columns: 1fr; }
-    .haven-finding:last-child { grid-column: 1; }
-
-    .contact { padding: 60px 24px; }
-  }
-
-  @media (max-width: 480px) {
-    .results-grid { grid-template-columns: 1fr; }
-    .cs-impact { grid-template-columns: 1fr 1fr; }
-    .haven-bm-grid { grid-template-columns: 1fr; }
-    .tools-grid { grid-template-columns: 1fr; }
-    .hero-pills { gap: 8px; }
-  }
+:root {
+  --dark: #1a1714;
+  --dark-2: #231f1c;
+  --cream: #f5f1ea;
+  --cream-dim: #cec7b8;
+  --sage: #6e8a65;
+  --sage-light: #9ab090;
+  --sage-pale: #eef2ea;
+  --amber: #b87040;
+  --amber-light: #d4956a;
+  --amber-pale: #faf0e4;
+  --ink: #1a1714;
+  --ink-soft: #4a443e;
+  --line: #e2dbd0;
+  --card: #ffffff;
+  --success: #2a7a4a;
+  --success-bg: #eaf4ee;
+  --warn: #7a5800;
+  --warn-bg: #fff8e4;
+  --danger: #a82c1c;
+  --danger-bg: #fdf0ee;
+  --info: #1a5fa8;
+  --info-bg: #e8f0fb;
+  --maxw: 1060px;
+  --r: 12px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.65;
+  font-size: 15px;
+}
+h1,h2,h3,h4 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -.01em;
+  line-height: 1.15;
+}
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+a { color: inherit; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+.eyebrow {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sage);
+  margin-bottom: 10px;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(26,23,20,0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.nav-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.nav-brand {
+  color: var(--cream);
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 24px; }
+.nav-links a {
+  color: var(--cream-dim);
+  font-size: 13px;
+  text-decoration: none;
+}
+.nav-links a:hover { color: var(--cream); }
+
+/* HERO */
+.hero {
+  background: var(--dark);
+  padding: 80px 0 0;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 56px;
+  align-items: flex-end;
+}
+.hero-left { padding-bottom: 64px; }
+.hero-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--sage-light);
+  font-weight: 700;
+  margin-bottom: 18px;
+  display: block;
+}
+.hero h1 {
+  font-size: 44px;
+  color: var(--cream);
+  margin-bottom: 18px;
+  max-width: 560px;
+}
+.hero h1 em { font-style: italic; color: var(--amber-light); }
+.hero-sub {
+  font-size: 16px;
+  color: var(--cream-dim);
+  max-width: 460px;
+  margin-bottom: 24px;
+}
+.hero-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  color: var(--cream-dim);
+  padding: 5px 13px;
+  border-radius: 100px;
+  font-size: 12.5px;
+}
+.hero-photo-col {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.hero-photo {
+  width: 280px;
+  height: 340px;
+  object-fit: cover;
+  object-position: center 15%;
+  border-radius: 14px 14px 0 0;
+  display: block;
+  filter: grayscale(8%);
+}
+
+/* STATS */
+.stats-bar {
+  background: var(--dark-2);
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.stat-cell {
+  padding: 28px 24px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-num {
+  font-family: Georgia, serif;
+  font-size: 30px;
+  color: var(--amber-light);
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--cream-dim);
+  display: block;
+}
+.stat-sub {
+  font-size: 11.5px;
+  color: rgba(206,199,184,0.5);
+  display: block;
+  margin-top: 2px;
+}
+
+/* APPROACH */
+.approach { padding: 76px 0; background: var(--cream); }
+.approach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.approach h2 { font-size: 30px; margin-bottom: 14px; }
+.approach h2 em { font-style: italic; color: var(--amber); }
+.approach-copy { font-size: 15.5px; color: var(--ink-soft); }
+.approach-cards { display: flex; flex-direction: column; gap: 12px; }
+.acard {
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.acard-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--sage-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.acard h3 { font-size: 14.5px; margin-bottom: 4px; }
+.acard p { font-size: 13px; color: var(--ink-soft); }
+
+/* CASE STUDY */
+.cs { background: var(--dark); padding: 76px 0; color: var(--cream); }
+.cs-head { margin-bottom: 36px; }
+.cs-head h2 { font-size: 28px; color: var(--cream); margin-top: 8px; }
+.cs-head p { font-size: 14.5px; color: var(--cream-dim); margin-top: 8px; max-width: 600px; }
+.cs-body {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 36px;
+}
+.cs-blocks { display: flex; flex-direction: column; gap: 26px; }
+.cs-block-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--amber-light);
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: block;
+}
+.cs-block ul {
+  margin: 0; padding-left: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+}
+.cs-block ul.single { grid-template-columns: 1fr; }
+.cs-block li { font-size: 13.5px; color: var(--cream-dim); }
+.cs-pullquote {
+  border-left: 3px solid var(--amber);
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--cream-dim);
+  line-height: 1.6;
+}
+.cs-img img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+.cs-img-caption {
+  font-size: 11.5px;
+  color: rgba(206,199,184,0.45);
+  text-align: center;
+  margin-top: 8px;
+}
+.cs-outcomes { border-top: 1px solid rgba(255,255,255,0.09); padding-top: 30px; }
+.cs-outcomes-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--amber-light);
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: block;
+}
+.cs-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.cs-stat {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 18px 14px;
+  text-align: center;
+}
+.cs-stat .n {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  color: var(--amber-light);
+  font-weight: 700;
+  display: block;
+}
+.cs-stat .l {
+  font-size: 12.5px;
+  color: var(--cream-dim);
+  margin-top: 4px;
+  display: block;
+}
+
+/* HAVEN */
+.haven { background: var(--cream); padding: 76px 0; }
+.haven-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 28px;
+}
+.haven-head-left { flex: 1; }
+.haven-head-left h2 { font-size: 28px; margin-top: 8px; }
+.haven-head-left p { font-size: 15px; color: var(--ink-soft); margin-top: 10px; max-width: 520px; }
+.haven-thumb {
+  width: 200px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.haven-thumb img { width: 100%; display: block; }
+.haven-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.haven-stat {
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.haven-stat .n { font-size: 22px; font-weight: 700; font-family: Georgia, serif; display: block; }
+.haven-stat .n.g { color: var(--success); }
+.haven-stat .n.w { color: var(--warn); }
+.haven-stat .n.b { color: var(--danger); }
+.haven-stat .l { font-size: 12px; color: var(--ink-soft); margin-top: 3px; display: block; }
+.haven-stat .s { font-size: 11px; color: #aaa; margin-top: 2px; display: block; }
+.haven-bottom {
+  background: var(--sage-pale);
+  border-left: 3px solid var(--sage);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+.findings { display: flex; flex-direction: column; gap: 8px; }
+details.fd {
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+details.fd[open] { border-color: var(--amber-light); }
+details.fd summary {
+  cursor: pointer;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  user-select: none;
+}
+details.fd summary::-webkit-details-marker { display: none; }
+.fd-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.bd-high { background: var(--danger-bg); color: var(--danger); }
+.bd-med { background: var(--warn-bg); color: var(--warn); }
+.bd-watch { background: var(--info-bg); color: var(--info); }
+.fd-title { font-size: 14px; font-weight: 500; flex: 1; color: var(--ink); }
+.fd-arrow { color: var(--ink-soft); font-size: 13px; flex-shrink: 0; transition: transform .18s; }
+details.fd[open] .fd-arrow { transform: rotate(180deg); }
+.fd-body { padding: 0 16px 16px; border-top: 0.5px solid var(--line); }
+.fd-body p { font-size: 13.5px; color: var(--ink-soft); margin: 12px 0 8px; }
+.fd-rec {
+  font-size: 13px;
+  color: var(--ink);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.fd-rec::before { content: '→'; color: var(--amber); font-weight: 700; flex-shrink: 0; }
+
+/* ROADMAP */
+.roadmap { background: var(--dark-2); padding: 76px 0; color: var(--cream); }
+.roadmap h2 { font-size: 28px; color: var(--cream); margin-top: 8px; }
+.roadmap > .wrap > p { font-size: 14.5px; color: var(--cream-dim); margin-top: 10px; margin-bottom: 44px; max-width: 520px; }
+.rm-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+}
+.rm-track::before {
+  content: '';
+  position: absolute;
+  top: 27px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--sage) 0%, var(--amber) 100%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.rm-phase { text-align: center; padding: 0 8px; }
+.rm-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--sage);
+  border: 3px solid var(--dark-2);
+  margin: 21px auto 16px;
+  position: relative;
+  z-index: 1;
+}
+.rm-phase:nth-child(n+3) .rm-dot { background: var(--amber); }
+.rm-n {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--sage-light);
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.rm-name {
+  font-family: Georgia, serif;
+  font-size: 14px;
+  color: var(--cream);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.rm-days { font-size: 12px; color: var(--cream-dim); opacity: .65; }
+.rm-note {
+  margin-top: 36px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-size: 13.5px;
+  color: var(--cream-dim);
+  line-height: 1.65;
+}
+
+/* STACK */
+.stack { padding: 64px 0; background: var(--cream); }
+.stack h2 { font-size: 28px; margin-top: 8px; margin-bottom: 32px; }
+.stack-groups { display: flex; flex-direction: column; gap: 22px; }
+.sg-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--ink-soft);
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+.sg-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc {
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.sc.p {
+  background: var(--dark);
+  color: var(--cream);
+  border-color: var(--dark);
+}
+
+/* CONTACT */
+.contact { background: var(--dark); padding: 76px 0; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.contact-photo {
+  width: 240px;
+  height: 260px;
+  object-fit: cover;
+  object-position: center 15%;
+  border-radius: 14px;
+  display: block;
+  filter: grayscale(8%);
+}
+.contact-right h2 { font-size: 28px; color: var(--cream); margin-bottom: 14px; }
+.contact-right p { font-size: 15.5px; color: var(--cream-dim); margin-bottom: 18px; max-width: 460px; }
+.contact-details { display: flex; flex-direction: column; gap: 5px; margin-bottom: 26px; }
+.contact-details span { font-size: 13.5px; color: var(--cream-dim); }
+.contact-details strong { color: var(--cream); }
+.cta-btn {
+  display: inline-block;
+  background: var(--amber);
+  color: var(--dark);
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.cta-btn:hover { background: var(--amber-light); }
+
+footer {
+  background: var(--dark);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 20px 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: rgba(206,199,184,0.35);
+}
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-photo { width: 200px; height: 240px; margin: 0 auto; display: block; border-radius: 14px; }
+  .hero h1 { font-size: 32px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .approach-grid { grid-template-columns: 1fr; }
+  .cs-body { grid-template-columns: 1fr; }
+  .cs-stat-grid { grid-template-columns: 1fr 1fr; }
+  .cs-block ul { grid-template-columns: 1fr; }
+  .haven-head { flex-direction: column; }
+  .haven-thumb { width: 100%; max-width: 280px; }
+  .haven-stats { grid-template-columns: 1fr 1fr; }
+  .rm-track { grid-template-columns: 1fr; }
+  .rm-track::before { display: none; }
+  .rm-phase { text-align: left; display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .rm-dot { margin: 0; flex-shrink: 0; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-photo { width: 160px; height: 180px; }
+}
 </style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
-<section class="hero">
-  <div class="hero-rings"></div>
-
-  <nav>
-    <div class="nav-logo">Jazmin Dawkins</div>
-    <button class="nav-toggle" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="#results">Results</a></li>
-      <li><a href="#case-study">Case Study</a></li>
-      <li><a href="#haven-audit">Audit Work</a></li>
-      <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <div class="hero-body">
-    <p class="hero-eyebrow">Retention, Lifecycle & Customer Journey Strategy</p>
-    <h1 class="hero-name">
-      Jazmin<br>
-      Dawkins
-      <em>eCommerce DTC Specialist</em>
-    </h1>
-    <p class="hero-tagline">I help DTC brands grow by fixing the points where revenue is quietly won or lost — from welcome and post-purchase to subscription, segmentation, and repeat purchase.</p>
-    <div class="hero-pills">
-      <span class="pill">Klaviyo</span>
-      <span class="pill">Shopify</span>
-      <span class="pill">Recharge</span>
-      <span class="pill">Email / SMS</span>
-      <span class="pill">Subscription UX</span>
-      <span class="pill">Deliverability</span>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">Jazmin Dawkins</a>
+    <div class="nav-links">
+      <a href="#results">Results</a>
+      <a href="#case-study">Case Study</a>
+      <a href="#haven-audit">Audit</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#contact">Contact</a>
     </div>
   </div>
+</nav>
 
-  <div class="hero-scroll">
-    <div class="scroll-line">Scroll to explore</div>
-  </div>
-</section>
-
-<!-- ── RESULTS ── -->
-<section class="results" id="results">
-  <div class="results-grid reveal">
-    <div class="result-item">
-      <div class="result-number">+50%</div>
-      <div class="result-label">Average Order Value</div>
-      <div class="result-detail">$19.99 → $39.99 via pricing, PDP & rebrand</div>
-    </div>
-    <div class="result-item">
-      <div class="result-number">45%</div>
-      <div class="result-label">Repeat Purchase Rate</div>
-      <div class="result-detail">at 90 days post-purchase</div>
-    </div>
-    <div class="result-item">
-      <div class="result-number">98%</div>
-      <div class="result-label">Email Deliverability</div>
-      <div class="result-detail">&lt;1.5% bounce · near-zero unsubs</div>
-    </div>
-    <div class="result-item">
-      <div class="result-number">+5pt</div>
-      <div class="result-label">Subscription Adoption</div>
-      <div class="result-detail">via UX, framing & checkout clarity</div>
-    </div>
-  </div>
-</section>
-
-<!-- ── HOW I OPERATE ── -->
-<section class="operate">
-  <div class="section-inner">
-    <div class="operate-grid reveal">
-      <div class="operate-left">
-        <div class="section-label">Approach</div>
-        <h2 class="section-title">I build retention systems,<br><em style="font-style:italic; color: var(--bark);">not just campaigns</em></h2>
-        <p>My strongest work is in the space between <strong>customer psychology and business performance.</strong></p>
-        <p>I look at where people hesitate, where trust breaks down, where messaging gets too broad, and where the journey is leaking repeat purchase. Then I turn that into smarter lifecycle structure across email, SMS, subscription, post-purchase, and onsite experience.</p>
-        <p>That means retention is not working in isolation — it connects to your PDPs, launches, inventory, offers, and customer education, so <strong>the whole system gets stronger, not just the inbox.</strong></p>
-      </div>
-      <div class="operate-cards">
-        <div class="op-card">
-          <div class="op-card-title">Build / Repair</div>
-          <p>Flow architecture, list health, event logic, and reporting foundations built from scratch or rebuilt after performance drift.</p>
-        </div>
-        <div class="op-card">
-          <div class="op-card-title">Optimize</div>
-          <p>Cadence, timing, offer logic, onboarding, replenishment, and post-purchase sequencing designed to improve repeat behavior.</p>
-        </div>
-        <div class="op-card">
-          <div class="op-card-title">Align</div>
-          <p>Lifecycle connected to site experience, merchandising, product launches, and paid traffic so retention compounds over time.</p>
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <span class="hero-eyebrow">Lifecycle &amp; Retention Strategy</span>
+        <h1>Jazmin Dawkins <em>eCommerce DTC Specialist</em></h1>
+        <p class="hero-sub">I help DTC brands turn retention into their highest-converting channel — through lifecycle architecture, segmentation, and post-purchase systems that compound over time.</p>
+        <div class="hero-chips">
+          <span class="chip">Klaviyo</span>
+          <span class="chip">Shopify</span>
+          <span class="chip">Recharge</span>
+          <span class="chip">Email / SMS</span>
+          <span class="chip">Subscription UX</span>
+          <span class="chip">Deliverability</span>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CASE STUDY ── -->
-<section class="case-study" id="case-study">
-  <div class="section-inner">
-    <div class="section-label reveal">Case Study</div>
-    <h2 class="section-title reveal">Rebuilding Revenue Infrastructure<br><span style="opacity:0.6; font-size:0.75em;">DTC Skincare Brand · Shopify + Klaviyo</span></h2>
-    <p class="reveal" style="color: rgba(245,240,227,0.7); font-size: 1rem; line-height: 1.8; font-weight: 300; max-width: 700px; margin-bottom: 40px;">This brand had demand, but too much growth was being carried by paid traffic. AOV was low, deliverability was weak, subscription adoption was underperforming, and retention was not yet functioning like a real growth lever. I rebuilt the lifecycle and site foundation to improve trust, repeat purchase, subscription uptake, and long-term customer value.</p>
-
-    <div class="cs-grid reveal">
-        <div class="cs-block-title">The Situation</div>
-        <ul>
-          <li>Growth heavily dependent on Meta and influencer spend</li>
-          <li>AOV ~$20 limiting LTV potential</li>
-          <li>Deliverability issues causing poor inbox placement</li>
-          <li>No structured loyalty or retention engine</li>
-          <li>Weak subscription adoption, churn trending up</li>
-        </ul>
-      </div>
-      <div class="cs-block">
-        <div class="cs-block-title">My Diagnosis</div>
-        <p>After auditing the funnel, the issue wasn't traffic. It was <em style="color: var(--sage); font-style:italic;">systems alignment, subscription UX, and lifecycle sequencing</em> — none of which were designed to drive repeat behavior. Retention wasn't a growth lever. Paid had to carry everything.</p>
-      </div>
-      <div class="cs-block">
-        <div class="cs-block-title">Execution</div>
-        <ul>
-          <li>Fixed deliverability via SPF, DKIM, DMARC + copy/cadence/segmentation cleanup</li>
-          <li>Migrated from Mailchimp → Klaviyo for cleaner lifecycle architecture</li>
-          <li>Rebuilt Shopify: nav, PDPs, premium layout, and subscription UX end-to-end</li>
-          <li>Implemented core flows: welcome, post-purchase, replenishment, winback</li>
-          <li>Coordinated packaging, pricing reset, and claims for premium positioning</li>
-          <li>Launched loyalty + insert strategy to drive reviews and repeat purchases</li>
-        </ul>
-      </div>
-      <div class="cs-block">
-        <div class="cs-block-title">Outcome</div>
-        <ul>
-          <li>Email/SMS became highest converting channel, outpacing paid ads</li>
-          <li>Unsubscribe rate dropped to near-zero after lifecycle restructure</li>
-          <li>Subscription adoption improved ~5 points through UX + framing changes</li>
-          <li>New haircare vertical launched on separate Shopify instance with full lifecycle stack</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="cs-impact reveal" style="margin-top: 24px;">
-      <div class="cs-stat">
-        <div class="cs-stat-num">+50%</div>
-        <div class="cs-stat-label">AOV lift</div>
-      </div>
-      <div class="cs-stat">
-        <div class="cs-stat-num">98%</div>
-        <div class="cs-stat-label">Deliverability achieved</div>
-      </div>
-      <div class="cs-stat">
-        <div class="cs-stat-num">~0</div>
-        <div class="cs-stat-label">Unsubscribe rate</div>
-      </div>
-      <div class="cs-stat">
-        <div class="cs-stat-num">+5pt</div>
-        <div class="cs-stat-label">Subscription adoption</div>
+      <div class="hero-photo-col">
+        <img class="hero-photo" src="images/head_shot.jpg" alt="Jazmin Dawkins">
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── HAVEN AUDIT ── -->
-<section class="haven-audit" id="haven-audit">
-  <div class="section-inner">
-    <div class="section-label reveal">Audit Work</div>
-    <h2 class="section-title reveal">Klaviyo Lifecycle Audit<br><span style="opacity:0.55; font-size:0.72em;">Haven · Women's Basics & Loungewear · DTC Apparel</span></h2>
-
-    <div class="haven-summary reveal">
-      <div class="haven-summary-text">
-        <p>Haven had real acquisition momentum — a clean list, a strong welcome flow, and cart recovery working near benchmark. But first-time buyers weren't coming back. Post-purchase repeat rate was 11.3% at 90 days against a 25–30% peer benchmark. The brand was acquiring well and retaining poorly.</p>
-        <p>I audited the full Klaviyo account and surfaced five prioritized findings — from post-purchase drop-off and winback failure to discount dependency and behavioral segmentation gaps.</p>
+<div class="stats-bar" id="results">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <span class="stat-num">+50%</span>
+        <span class="stat-label">Average Order Value</span>
+        <span class="stat-sub">$19.99 → $39.99 via pricing, PDP &amp; rebrand</span>
       </div>
-      <div class="haven-bottom-line">
-        <div class="haven-bl-label">Bottom Line</div>
-        <p>Haven is acquiring well but not retaining. The opportunity is in deepening the post-purchase journey, reducing discount dependency, and making every send feel personally relevant to where the customer is in their relationship with the brand.</p>
+      <div class="stat-cell">
+        <span class="stat-num">45%</span>
+        <span class="stat-label">Repeat Purchase Rate</span>
+        <span class="stat-sub">at 90 days post-purchase</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">98%</span>
+        <span class="stat-label">Email Deliverability</span>
+        <span class="stat-sub">&lt;1.5% bounce · near-zero unsubs</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">+5pt</span>
+        <span class="stat-label">Subscription Adoption</span>
+        <span class="stat-sub">via UX, framing &amp; checkout clarity</span>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Benchmark table -->
-    <div class="haven-benchmarks reveal">
-      <div class="haven-bm-title">Flow Performance vs. Peer Benchmark · Last 30 Days</div>
-      <div class="haven-bm-grid">
-        <div class="haven-flow highlight-flow">
-          <div class="haven-flow-name">Welcome Flow</div>
-          <div class="haven-metrics">
-            <div class="haven-metric"><span class="hm-val above">58.4%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
-            <div class="haven-metric"><span class="hm-val above">4.71%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
-            <div class="haven-metric"><span class="hm-val above">$5.38</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
+<section class="approach">
+  <div class="wrap">
+    <div class="approach-grid">
+      <div>
+        <span class="eyebrow">Approach</span>
+        <h2>I build retention systems, <em>not just campaigns</em></h2>
+        <p class="approach-copy" style="margin-top:14px;">My strongest work lives in the space between customer psychology and business performance — finding where the journey leaks repeat purchase, then turning that into smarter lifecycle structure across email, SMS, subscription, post-purchase, and onsite experience.</p>
+      </div>
+      <div class="approach-cards">
+        <div class="acard">
+          <div class="acard-icon">🏗</div>
+          <div>
+            <h3>Build / Repair</h3>
+            <p>Flow architecture, list health, event logic, and reporting foundations built from scratch or rebuilt after performance drift.</p>
           </div>
-          <div class="haven-flow-note">Above benchmark — strongest flow</div>
         </div>
-        <div class="haven-flow">
-          <div class="haven-flow-name">Post-Purchase</div>
-          <div class="haven-metrics">
-            <div class="haven-metric"><span class="hm-val above">54.2%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
-            <div class="haven-metric"><span class="hm-val below">2.18%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
-            <div class="haven-metric"><span class="hm-val below">$1.86</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
+        <div class="acard">
+          <div class="acard-icon">⚡</div>
+          <div>
+            <h3>Optimize</h3>
+            <p>Cadence, timing, offer logic, onboarding, replenishment, and post-purchase sequencing designed to improve repeat behavior.</p>
           </div>
-          <div class="haven-flow-note">Opens healthy — repeat purchase lags</div>
         </div>
-        <div class="haven-flow">
-          <div class="haven-flow-name">Winback Flow</div>
-          <div class="haven-metrics">
-            <div class="haven-metric"><span class="hm-val below">31.7%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
-            <div class="haven-metric"><span class="hm-val below">1.04%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
-            <div class="haven-metric"><span class="hm-val below">$0.74</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
+        <div class="acard">
+          <div class="acard-icon">🔗</div>
+          <div>
+            <h3>Align</h3>
+            <p>Lifecycle connected to site experience, merchandising, product launches, and paid traffic so retention compounds over time.</p>
           </div>
-          <div class="haven-flow-note">Weakest flow — needs a rebuild</div>
-        </div>
-        <div class="haven-flow">
-          <div class="haven-flow-name">Abandon Cart</div>
-          <div class="haven-metrics">
-            <div class="haven-metric"><span class="hm-val above">55.8%</span><span class="hm-label">Open Rate</span><span class="hm-peer">peer 51.9%</span></div>
-            <div class="haven-metric"><span class="hm-val below">3.94%</span><span class="hm-label">Click Rate</span><span class="hm-peer">peer 4.33%</span></div>
-            <div class="haven-metric"><span class="hm-val below">$4.42</span><span class="hm-label">Rev / Recipient</span><span class="hm-peer">peer $4.90</span></div>
-          </div>
-          <div class="haven-flow-note">Near benchmark — click rate gap</div>
         </div>
       </div>
     </div>
-
-    <!-- 5 Findings -->
-    <div class="haven-findings reveal">
-      <div class="haven-finding">
-        <div class="haven-finding-num">01</div>
-        <div class="haven-finding-priority high">High Priority</div>
-        <div class="haven-finding-title">Welcome Is Strong But Acquisition Mix Is Creating a Ceiling</div>
-        <p>The welcome flow performs above benchmark overall — but performance varies significantly by opt-in source. Incentive-led and contest-driven entrants show weaker downstream conversion than direct or browse-intent sign-ups. The flow is doing its job; a portion of the audience entering it isn't ready for the conversion pressure it applies.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Conduct a source-level welcome analysis. Determine whether incentive-led entrants need a longer nurture arc before purchase messaging begins. Optimize for list quality alongside list growth.</div>
-      </div>
-      <div class="haven-finding">
-        <div class="haven-finding-num">02</div>
-        <div class="haven-finding-priority high">High Priority</div>
-        <div class="haven-finding-title">First-to-Second Purchase Drop-Off Is the Biggest Revenue Gap</div>
-        <p>Post-purchase opens are solid at 54.2%, but repeat purchase rate is 11.3% at 90 days — well below the 25–30% benchmark for retained DTC customers. The sequence makes multiple asks (review, referral, cross-sell, community) without a clear progression. Customers feel pulled in different directions rather than guided toward a natural next step.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Rebuild post-purchase around a confidence-first arc — reinforce the purchase, provide product education and inspiration, then introduce the single most relevant next action. Measure success by 90-day repeat purchase rate, not email engagement.</div>
-      </div>
-      <div class="haven-finding">
-        <div class="haven-finding-num">03</div>
-        <div class="haven-finding-priority med">Medium-High</div>
-        <div class="haven-finding-title">Winback Flow Is Not Converting — Wrong Timing, Wrong Message</div>
-        <p>The winback flow is the weakest in the account: 31.7% open rate, 1.04% click rate, 3.2% recovery rate. It's triggering too late and leading with discounts rather than reminding customers why they loved the brand. Discount-first winback also trains customers to lapse intentionally to receive offers.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Shorten the trigger window. Lead with brand inspiration and new arrivals relevant to past purchase behavior. Reserve any discount for the final send as a last resort. Test a no-discount sequence against the current approach.</div>
-      </div>
-      <div class="haven-finding">
-        <div class="haven-finding-num">04</div>
-        <div class="haven-finding-priority high">High Priority</div>
-        <div class="haven-finding-title">Campaign Strategy Is Discount-Dependent and Margin-Eroding</div>
-        <p>Discount-led sends significantly outperform non-promotional sends, but the gap is narrowing as customers become conditioned to wait for offers. Non-promo click rates are below benchmark. Broad "shop the collection" CTAs are consistently underperforming more specific, product-led paths. The campaign is reaching the right people with the wrong message.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Build a planned promotional-to-non-promotional ratio into the campaign calendar. Develop editorial content, product storytelling, and styling-led sends that earn the click without an offer. Use behavioral segments to send product-specific campaigns based on demonstrated interest.</div>
-      </div>
-      <div class="haven-finding">
-        <div class="haven-finding-num">05</div>
-        <div class="haven-finding-priority med">Medium-High</div>
-        <div class="haven-finding-title">Segmentation Is Engagement-Based — Missing Behavioral and Product Signals</div>
-        <p>Campaign audiences are built around recency of engagement — active 30, 60, 90 days. This tells you how warm someone is, but nothing about what they want or what they've been looking at. A customer who bought loungewear last month receives the same campaign as someone who only browsed outerwear once. Browse behavior, product category interest, and purchase history are all available in the account — the activation is the missing piece.</p>
-        <div class="haven-rec"><strong>Rec:</strong> Build behavioral and product-interest segments for at least two upcoming campaign sends. Use past purchase to inform what to show next. Relevance earns the click that discounts are currently buying — and rebuilds non-promo performance without margin erosion.</div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- ── ROADMAP ── -->
+<section class="cs" id="case-study">
+  <div class="wrap">
+    <div class="cs-head">
+      <span class="eyebrow" style="color:var(--sage-light);">Case study</span>
+      <h2>Rebuilding Revenue Infrastructure</h2>
+      <p>DTC Skincare Brand · Shopify + Klaviyo · Growth dependent on paid — retention wasn't functioning as a revenue lever yet.</p>
+    </div>
+    <div class="cs-body">
+      <div class="cs-blocks">
+        <div class="cs-block">
+          <span class="cs-block-label">The situation</span>
+          <ul class="single">
+            <li>AOV ~$20 limiting LTV; deliverability weak, poor inbox placement</li>
+            <li>No structured retention engine; subscription churn trending up</li>
+            <li>Revenue heavily dependent on Meta and influencer spend</li>
+          </ul>
+        </div>
+        <div class="cs-block">
+          <span class="cs-block-label">Diagnosis</span>
+          <div class="cs-pullquote">The issue wasn't traffic — it was systems alignment, subscription UX, and lifecycle sequencing. None of it was designed to drive repeat behavior. Paid had to carry everything.</div>
+        </div>
+        <div class="cs-block">
+          <span class="cs-block-label">Execution</span>
+          <ul>
+            <li>Fixed deliverability via SPF, DKIM, DMARC + list hygiene</li>
+            <li>Migrated Mailchimp → Klaviyo, rebuilt lifecycle architecture</li>
+            <li>Rebuilt Shopify nav, PDPs, and subscription UX end-to-end</li>
+            <li>Built core flows: welcome, post-purchase, replenishment, winback</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cs-img">
+        <img src="images/email_flowchart_minimal.png" alt="Lifecycle email flow segmentation architecture — sage nodes represent education touchpoints, amber nodes represent branch and conversion moments">
+        <p class="cs-img-caption">Lifecycle segmentation architecture — sage = education touchpoints, amber = branch &amp; conversion moments</p>
+      </div>
+    </div>
+    <div class="cs-outcomes">
+      <span class="cs-outcomes-label">Outcome</span>
+      <div class="cs-stat-grid">
+        <div class="cs-stat"><span class="n">+50%</span><span class="l">AOV lift</span></div>
+        <div class="cs-stat"><span class="n">98%</span><span class="l">Deliverability</span></div>
+        <div class="cs-stat"><span class="n">~0</span><span class="l">Unsubscribe rate</span></div>
+        <div class="cs-stat"><span class="n">+5pt</span><span class="l">Subscription adoption</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="haven" id="haven-audit">
+  <div class="wrap">
+    <div class="haven-head">
+      <div class="haven-head-left">
+        <span class="eyebrow">Audit work</span>
+        <h2>Klaviyo Lifecycle Audit — Haven</h2>
+        <p>Women's Basics &amp; Loungewear · DTC Apparel. Haven was acquiring well but retaining poorly. I audited the full Klaviyo account and surfaced five prioritized findings.</p>
+      </div>
+      <div class="haven-thumb">
+        <img src="images/womens_loungewear.png" alt="Cream ribbed knit loungewear flatlay — representative of Haven brand aesthetic">
+      </div>
+    </div>
+    <div class="haven-stats">
+      <div class="haven-stat">
+        <span class="n b">11.3%</span>
+        <span class="l">90-day repeat purchase</span>
+        <span class="s">vs 25–30% peer benchmark</span>
+      </div>
+      <div class="haven-stat">
+        <span class="n g">58.4%</span>
+        <span class="l">Welcome open rate</span>
+        <span class="s">vs 51.9% peer · strongest flow</span>
+      </div>
+      <div class="haven-stat">
+        <span class="n b">3.2%</span>
+        <span class="l">Winback recovery rate</span>
+        <span class="s">weakest flow in account</span>
+      </div>
+      <div class="haven-stat">
+        <span class="n w">$1.86</span>
+        <span class="l">Post-purchase rev/recipient</span>
+        <span class="s">vs $4.90 peer benchmark</span>
+      </div>
+    </div>
+    <div class="haven-bottom">
+      <strong>Bottom line:</strong> Haven is acquiring well but not retaining. The opportunity is in deepening the post-purchase journey, reducing discount dependency, and making every send feel personally relevant to where the customer is in their relationship with the brand.
+    </div>
+    <div class="findings">
+      <details class="fd" open>
+        <summary>
+          <span class="fd-badge bd-high">High priority</span>
+          <span class="fd-title">First-to-second purchase drop-off is the biggest revenue gap</span>
+          <span class="fd-arrow">▾</span>
+        </summary>
+        <div class="fd-body">
+          <p>Post-purchase opens are solid at 54.2%, but 90-day repeat purchase sits at 11.3% — well below the 25–30% benchmark. The sequence makes multiple competing asks without a clear progression.</p>
+          <p class="fd-rec">Rebuild post-purchase around a confidence-first arc: reinforce, educate, then one clear next action. Measure by 90-day repeat rate, not email engagement.</p>
+        </div>
+      </details>
+      <details class="fd">
+        <summary>
+          <span class="fd-badge bd-high">High priority</span>
+          <span class="fd-title">Campaign strategy is discount-dependent and margin-eroding</span>
+          <span class="fd-arrow">▾</span>
+        </summary>
+        <div class="fd-body">
+          <p>Discount sends outperform non-promo, but the gap is narrowing as customers get conditioned to wait for offers. Broad CTAs consistently underperform product-specific paths.</p>
+          <p class="fd-rec">Build a planned promo-to-editorial ratio. Use behavioral segments to earn the click without discounting.</p>
+        </div>
+      </details>
+      <details class="fd">
+        <summary>
+          <span class="fd-badge bd-med">Medium-high</span>
+          <span class="fd-title">Winback is triggering too late, leading with discount</span>
+          <span class="fd-arrow">▾</span>
+        </summary>
+        <div class="fd-body">
+          <p>31.7% open, 1.04% click, 3.2% recovery — the weakest flow in the account. Discount-first winback trains customers to lapse on purpose.</p>
+          <p class="fd-rec">Shorten the trigger window. Lead with brand inspiration. Reserve any discount for the final send only.</p>
+        </div>
+      </details>
+      <details class="fd">
+        <summary>
+          <span class="fd-badge bd-med">Medium-high</span>
+          <span class="fd-title">Segmentation is engagement-based, missing behavioral signals</span>
+          <span class="fd-arrow">▾</span>
+        </summary>
+        <div class="fd-body">
+          <p>Audiences built on recency alone — a loungewear buyer and an outerwear browser get the same campaign. Browse behavior, category interest, and purchase history are available but not activated.</p>
+          <p class="fd-rec">Build behavioral and product-interest segments for at least two upcoming sends. Let past purchase inform what's shown next.</p>
+        </div>
+      </details>
+      <details class="fd">
+        <summary>
+          <span class="fd-badge bd-watch">Watch</span>
+          <span class="fd-title">Welcome flow is strong, but acquisition mix is creating a ceiling</span>
+          <span class="fd-arrow">▾</span>
+        </summary>
+        <div class="fd-body">
+          <p>58.4% open rate is above benchmark, but incentive-led and contest entrants convert worse downstream than direct or browse-intent sign-ups.</p>
+          <p class="fd-rec">Run a source-level welcome analysis. Consider a longer nurture arc before purchase messaging for incentive-led entrants.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <section class="roadmap" id="roadmap">
-  <div class="section-inner">
-    <div class="section-label reveal">Sample Framework</div>
-    <h2 class="section-title reveal">Roadmap to 30% Retention Revenue</h2>
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--sage-light);">Sample framework</span>
+    <h2>Roadmap to 30% Retention Revenue</h2>
+    <p>A five-phase system for turning lifecycle from a cost center into a predictable revenue channel.</p>
+    <div class="rm-track">
+      <div class="rm-phase">
+        <div class="rm-dot"></div>
+        <div class="rm-n">Phase 01</div>
+        <div class="rm-name">Lifecycle Audit</div>
+        <div class="rm-days">Days 1–10</div>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-dot"></div>
+        <div class="rm-n">Phase 02</div>
+        <div class="rm-name">Segmentation Architecture</div>
+        <div class="rm-days">Days 11–15</div>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-dot"></div>
+        <div class="rm-n">Phase 03</div>
+        <div class="rm-name">Post-Purchase Optimization</div>
+        <div class="rm-days">Days 16–20</div>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-dot"></div>
+        <div class="rm-n">Phase 04</div>
+        <div class="rm-name">Replenishment Strategy</div>
+        <div class="rm-days">Days 20–25</div>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-dot"></div>
+        <div class="rm-n">Phase 05</div>
+        <div class="rm-name">Testing &amp; Optimization</div>
+        <div class="rm-days">Days 25+</div>
+      </div>
+    </div>
+    <div class="rm-note">Audit diagnoses the leak, segmentation makes messaging relevant, post-purchase education drives first-to-second purchase, replenishment catches customers before they lapse, and testing compounds every gain. North star throughout: repeat purchase rate at 90 days.</div>
+  </div>
+</section>
 
-    <div class="roadmap-phases reveal">
-      <div class="phase">
-        <div class="phase-num">01</div>
-        <div class="phase-title">Lifecycle Audit</div>
-        <div class="phase-days">Days 1–10</div>
-        <ul class="phase-items">
-          <li>Flow performance review</li>
-          <li>Revenue attribution by flow</li>
-          <li>Time-to-second-purchase</li>
-          <li>Product reorder patterns</li>
-        </ul>
+<section class="stack">
+  <div class="wrap">
+    <span class="eyebrow">Stack</span>
+    <h2>Tools I Own</h2>
+    <div class="stack-groups">
+      <div>
+        <div class="sg-label">Email &amp; SMS</div>
+        <div class="sg-chips">
+          <span class="sc p">Klaviyo</span>
+          <span class="sc p">Postscript</span>
+          <span class="sc">Attentive</span>
+        </div>
       </div>
-      <div class="phase">
-        <div class="phase-num">02</div>
-        <div class="phase-title">Segmentation Architecture</div>
-        <div class="phase-days">Days 11–15</div>
-        <ul class="phase-items">
-          <li>First-time buyers</li>
-          <li>Active + VIP customers</li>
-          <li>At-risk / churn</li>
-          <li>Behavioral overlays</li>
-        </ul>
+      <div>
+        <div class="sg-label">Ecommerce</div>
+        <div class="sg-chips">
+          <span class="sc p">Shopify</span>
+          <span class="sc p">Recharge</span>
+          <span class="sc">PageFly</span>
+          <span class="sc">Loox</span>
+          <span class="sc">ShipStation</span>
+        </div>
       </div>
-      <div class="phase">
-        <div class="phase-num">03</div>
-        <div class="phase-title">Post-Purchase Optimization</div>
-        <div class="phase-days">Days 16–20</div>
-        <ul class="phase-items">
-          <li>Education flow build</li>
-          <li>Habit formation sequence</li>
-          <li>Replenishment timing</li>
-          <li>Subscription framing</li>
-        </ul>
+      <div>
+        <div class="sg-label">Analytics</div>
+        <div class="sg-chips">
+          <span class="sc p">GA4 / GTM</span>
+          <span class="sc">Google Sheets</span>
+          <span class="sc">Excel</span>
+        </div>
       </div>
-      <div class="phase">
-        <div class="phase-num">04</div>
-        <div class="phase-title">Replenishment Strategy</div>
-        <div class="phase-days">Days 20–25</div>
-        <ul class="phase-items">
-          <li>Reorder reminders (email)</li>
-          <li>Quick reorder link (SMS)</li>
-          <li>Subscription offer timing</li>
-          <li>Helpful over promotional</li>
-        </ul>
-      </div>
-      <div class="phase">
-        <div class="phase-num">05</div>
-        <div class="phase-title">Testing & Optimization</div>
-        <div class="phase-days">Days 25+</div>
-        <ul class="phase-items">
-          <li>Replenishment timing tests</li>
-          <li>SMS vs email conversion</li>
-          <li>Subscription offer position</li>
-          <li>Cohort LTV tracking</li>
-        </ul>
+      <div>
+        <div class="sg-label">AI &amp; Creative</div>
+        <div class="sg-chips">
+          <span class="sc p">Claude</span>
+          <span class="sc p">ChatGPT</span>
+          <span class="sc p">Midjourney</span>
+          <span class="sc">Canva</span>
+          <span class="sc">Photoshop</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── TOOLS ── -->
-<section class="tools">
-  <div class="section-inner">
-    <div class="section-label reveal">Stack</div>
-    <h2 class="section-title reveal">Tools I Own</h2>
-    <div class="tools-grid reveal">
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Klaviyo</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Shopify</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Recharge</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Postscript</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Attentive</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">GA4 / GTM</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Loox</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">PageFly</span></div>
-      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">ShipStation</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── HOW I WORK ── -->
-<section class="how-i-work">
-  <div class="section-inner">
-    <div class="hiw-grid reveal">
-      <div class="hiw-photo-wrap">
-        <img src="data:image/jpeg;base64,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" alt="Jazmin Dawkins" class="hiw-photo">
-      </div>
-      <div class="hiw-text">
-        <div class="section-label">Working with me</div>
-        <h2 class="section-title">How I work</h2>
-        <p>I'm thoughtful, direct, and highly observant. I care about finding the real issue, not just the visible one. The best work usually comes from improving the system underneath the symptom — and that takes someone willing to look past the dashboard and ask what's actually going on with the customer.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT ── -->
 <section class="contact" id="contact">
-  <div class="contact-inner">
-    <h2>Let's work together</h2>
-    <p>Open to lifecycle, retention, and ecommerce growth roles.</p>
-    <a class="contact-link" href="mailto:jdawkins.marketing@gmail.com">Get in touch</a>
+  <div class="wrap">
+    <div class="contact-grid">
+      <img class="contact-photo" src="images/head_shot.jpg" alt="Jazmin Dawkins">
+      <div class="contact-right">
+        <h2>How I work</h2>
+        <p>Thoughtful, direct, and highly observant. I care about finding the real issue, not just the visible one — the best work comes from improving the system underneath the symptom.</p>
+        <p>Currently open to lifecycle and retention roles, remote or hybrid. I'd love to connect.</p>
+        <div class="contact-details">
+          <span><strong>Email:</strong> jdawkins.marketing@gmail.com</span>
+          <span><strong>Portfolio:</strong> jdawkins-marketing.github.io</span>
+          <span><strong>Location:</strong> Open to remote / relocation</span>
+        </div>
+        <a class="cta-btn" href="mailto:jdawkins.marketing@gmail.com">Get in touch</a>
+      </div>
+    </div>
   </div>
 </section>
 
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
-
-  // Close mobile nav when a link is tapped
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.querySelector('.nav-links').classList.remove('open');
-    });
-  });
-</script>
+<footer>
+  <div class="wrap">Jazmin Dawkins · Lifecycle &amp; Retention Strategy · jdawkins.marketing@gmail.com</div>
+</footer>
 
 </body>
 </html>
