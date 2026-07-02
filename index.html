@@ -400,6 +400,48 @@ details.fd[open] .fd-arrow { transform: rotate(180deg); }
 }
 .fd-rec::before { content: '→'; color: var(--amber); font-weight: 700; flex-shrink: 0; }
 
+/* NORTH SPORE FEATURE */
+.ns-feature { background: var(--dark); padding: 76px 0; color: var(--cream); }
+.ns-feature h2 { font-size: 28px; color: var(--cream); margin-top: 8px; }
+.ns-sub { font-size: 15px; color: var(--cream-dim); margin-top: 10px; margin-bottom: 32px; max-width: 640px; }
+.ns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.ns-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px;
+  padding: 24px;
+}
+.ns-card-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--sage-light);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.ns-card h3 { font-size: 17px; color: var(--cream); margin-bottom: 10px; }
+.ns-card p { font-size: 13.5px; color: var(--cream-dim); margin-bottom: 14px; }
+.ns-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ns-tag {
+  background: rgba(110,138,101,0.15);
+  border: 1px solid rgba(110,138,101,0.3);
+  color: var(--sage-light);
+  font-size: 11.5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+.ns-cta {
+  display: inline-block;
+  background: var(--sage);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+}
+.ns-cta:hover { background: var(--sage-light); }
+
 /* ROADMAP */
 .roadmap { background: var(--dark-2); padding: 76px 0; color: var(--cream); }
 .roadmap h2 { font-size: 28px; color: var(--cream); margin-top: 8px; }
@@ -796,6 +838,37 @@ footer {
         </div>
       </details>
     </div>
+  </div>
+</section>
+
+<section class="ns-feature">
+  <div class="wrap">
+    <span class="eyebrow">Strategic deliverable</span>
+    <h2>North Spore — Lifecycle Rebuild</h2>
+    <p class="ns-sub">Built during final-round interviews for an Ecommerce Lifecycle Manager role. A complete 0–90 day post-purchase architecture for two flagship grow-kit product lines, with biology-timed messaging, branch-point segmentation, and a scalable dynamic content system.</p>
+    <div class="ns-grid">
+      <div class="ns-card">
+        <div class="ns-card-label">Deliverable 01</div>
+        <h3>Boomr Bin Monotub</h3>
+        <p>24-page lifecycle strategy doc with full 0–90 day flow architecture, branch logic at day 36 by grow outcome and buyer type, 9 segmented email sequences, and business impact projections.</p>
+        <div class="ns-tags">
+          <span class="ns-tag">Outcome-based branching</span>
+          <span class="ns-tag">First-time vs. repeat grower</span>
+          <span class="ns-tag">Contamination empathy path</span>
+        </div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-card-label">Deliverable 02</div>
+        <h3>BoomRoom II + Lion's Mane</h3>
+        <p>24-slide presentation deck — 0–90 day customer journey anchored to grow biology, not the calendar. Two branch points, a 12-email messaging plan, scalable strain-data architecture, and commercial impact model.</p>
+        <div class="ns-tags">
+          <span class="ns-tag">Biology-timed sequencing</span>
+          <span class="ns-tag">Dynamic content at scale</span>
+          <span class="ns-tag">Second-block purchase rate</span>
+        </div>
+      </div>
+    </div>
+    <a class="ns-cta" href="north-spore-case-study.html">View full case study →</a>
   </div>
 </section>
 
