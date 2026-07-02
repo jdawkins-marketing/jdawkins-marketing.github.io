@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North Spore — Lifecycle Rebuild Case Study | Jazmin Dawkins</title>
+<style>
+  :root{
+    --bg-dark:#241c19;
+    --bg-dark-2:#2c2320;
+    --cream:#f7f4ee;
+    --cream-dim:#d9d2c6;
+    --sage:#7c9473;
+    --sage-light:#a9bb9f;
+    --sage-pale:#eef2ea;
+    --amber:#c17f4e;
+    --amber-light:#dba57a;
+    --amber-pale:#faf0e6;
+    --rust:#a5583a;
+    --ink:#241c19;
+    --ink-soft:#4a423d;
+    --line:#e4ddd0;
+    --card:#ffffff;
+    --maxw:1040px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+  }
+  h1,h2,h3,h4{
+    font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    font-weight:700;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:12px;
+    font-weight:700;
+    color:var(--sage);
+  }
+  .eyebrow.amber{color:var(--amber);}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(36,28,25,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;}
+  nav .brand{color:var(--cream);font-family:Georgia,serif;font-size:15px;font-weight:700;text-decoration:none;}
+  nav .back{
+    color:var(--cream-dim);font-size:13px;text-decoration:none;
+    display:flex;align-items:center;gap:6px;
+  }
+  nav .back:hover{color:var(--cream);}
+
+  /* HERO */
+  .hero{
+    background:radial-gradient(circle at 15% 20%, #2f2521 0%, var(--bg-dark) 55%);
+    color:var(--cream);
+    padding:88px 0 72px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .dot{
+    position:absolute;border-radius:50%;
+    background:var(--amber);opacity:0.5;
+  }
+  .hero .dot:nth-child(1){width:10px;height:10px;top:60px;right:120px;}
+  .hero .dot:nth-child(2){width:6px;height:6px;top:130px;right:220px;background:var(--sage);}
+  .hero .dot:nth-child(3){width:14px;height:14px;top:190px;right:70px;opacity:0.35;}
+  .hero .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(124,148,115,0.16);
+    border:1px solid rgba(124,148,115,0.4);
+    color:var(--sage-light);
+    padding:6px 14px;border-radius:100px;
+    font-size:12.5px;font-weight:600;letter-spacing:.03em;
+    margin-bottom:26px;
+  }
+  .hero h1{
+    font-size:44px;line-height:1.12;color:var(--cream);
+    max-width:760px;margin-bottom:20px;
+  }
+  .hero h1 em{font-style:italic;color:var(--amber-light);}
+  .hero p.sub{
+    font-size:18px;color:var(--cream-dim);max-width:600px;margin-bottom:36px;
+  }
+  .hero .meta{
+    display:flex;flex-wrap:wrap;gap:28px 40px;
+    padding-top:28px;border-top:1px solid rgba(255,255,255,0.12);
+    max-width:760px;
+  }
+  .hero .meta div{display:flex;flex-direction:column;gap:4px;}
+  .hero .meta .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--cream-dim);opacity:.75;}
+  .hero .meta .val{font-size:15px;color:var(--cream);font-weight:600;}
+
+  /* CONTEXT NOTE */
+  .context-note{
+    background:var(--sage-pale);
+    border-left:4px solid var(--sage);
+    padding:20px 26px;
+    margin:-40px auto 0;
+    max-width:calc(var(--maxw) - 56px);
+    border-radius:0 10px 10px 0;
+    position:relative;
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  .context-note strong{color:var(--ink);}
+
+  /* SECTIONS */
+  section{padding:76px 0;}
+  section.tight{padding:56px 0;}
+  .section-head{max-width:640px;margin-bottom:44px;}
+  .section-head h2{font-size:30px;color:var(--ink);margin-top:10px;}
+  .section-head p{font-size:16px;color:var(--ink-soft);margin-top:12px;}
+
+  /* TWO IDEAS */
+  .idea-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .idea-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;
+  }
+  .idea-icon{
+    width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;margin-bottom:18px;
+  }
+  .idea-icon.sage{background:var(--sage-pale);color:var(--sage);}
+  .idea-icon.amber{background:var(--amber-pale);color:var(--amber);}
+  .idea-card h3{font-size:19px;margin-bottom:10px;color:var(--ink);}
+  .idea-card p{font-size:14.5px;color:var(--ink-soft);margin:0;}
+  .not-strip{
+    margin-top:22px;background:var(--bg-dark);color:var(--cream-dim);
+    padding:14px 22px;border-radius:10px;font-size:13.5px;
+  }
+  .not-strip b{color:var(--amber-light);}
+
+  /* INSIGHT */
+  .insight-wrap{
+    display:grid;grid-template-columns:1fr 1.15fr;gap:36px;align-items:start;
+  }
+  .insight-callout{
+    background:var(--bg-dark);color:var(--cream);border-radius:14px;padding:30px;
+  }
+  .insight-callout p{font-size:15px;color:var(--cream-dim);}
+  .insight-callout .tag{
+    display:inline-block;background:rgba(193,127,78,0.2);color:var(--amber-light);
+    font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;margin-bottom:14px;
+  }
+  .insight-list{display:flex;flex-direction:column;gap:16px;}
+  .insight-row{
+    display:grid;grid-template-columns:150px 1fr;gap:16px;
+    border-bottom:1px solid var(--line);padding-bottom:16px;
+  }
+  .insight-row:last-child{border-bottom:none;}
+  .insight-row .k{font-size:13px;font-weight:700;color:var(--sage);text-transform:uppercase;letter-spacing:.04em;}
+  .insight-row .v{font-size:14.5px;color:var(--ink-soft);}
+
+  /* TIMELINE */
+  .timeline{
+    display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:14px;
+  }
+  .tl-step{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:14px 10px;text-align:center;
+  }
+  .tl-step.branch{background:var(--amber-pale);border-color:var(--amber-light);}
+  .tl-step .day{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+  .tl-step .name{font-size:12.5px;font-weight:700;color:var(--ink);margin-top:4px;}
+  .tl-legend{display:flex;gap:22px;font-size:12.5px;color:var(--ink-soft);margin-top:6px;}
+  .tl-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .swatch.n{background:var(--card);border:1px solid var(--line);}
+  .swatch.b{background:var(--amber-pale);border:1px solid var(--amber-light);}
+
+  /* SEGMENTATION TABLE */
+  .seg-table{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--line);}
+  .seg-table th,.seg-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line);}
+  .seg-table th{background:var(--bg-dark);color:var(--cream);font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;}
+  .seg-table tr:last-child td{border-bottom:none;}
+  .seg-table td:first-child{font-weight:700;color:var(--ink);}
+  .seg-table td{color:var(--ink-soft);}
+
+  /* EMAIL SAMPLES */
+  .email-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .email-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .email-card .head{
+    background:var(--bg-dark);color:var(--cream-dim);padding:12px 20px;
+    font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;
+  }
+  .email-card .subj{
+    padding:18px 20px 8px;font-size:16px;font-weight:700;color:var(--ink);
+    font-family:Georgia,serif;
+  }
+  .email-card .body{padding:0 20px 20px;font-size:13.5px;color:var(--ink-soft);}
+  .email-card .body p{margin:0 0 10px;}
+  .email-card .why{
+    background:var(--sage-pale);margin:0 20px 20px;padding:14px 16px;border-radius:8px;
+    font-size:12.5px;color:var(--ink-soft);
+  }
+  .email-card .why b{color:var(--sage);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+
+  /* STATS ROW */
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .stat-card{
+    background:var(--bg-dark);color:var(--cream);border-radius:14px;padding:26px;text-align:center;
+  }
+  .stat-card.mid{background:var(--rust);}
+  .stat-card .num{font-family:Georgia,serif;font-size:30px;font-weight:700;color:var(--amber-light);}
+  .stat-card.mid .num{color:var(--cream);}
+  .stat-card .lbl{font-size:12.5px;color:var(--cream-dim);margin-top:6px;}
+  .stat-card .sub{font-size:12px;color:var(--cream-dim);opacity:.75;margin-top:2px;}
+
+  /* MEASUREMENT */
+  .measure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .measure-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;}
+  .measure-card .tier{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+  .measure-card.lead .tier{color:var(--sage);}
+  .measure-card.lag .tier{color:var(--amber);}
+  .measure-card.guard .tier{color:var(--rust);}
+  .measure-card ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-soft);}
+  .measure-card li{margin-bottom:8px;}
+
+  /* PRIORITIES */
+  .prio-list{display:flex;flex-direction:column;gap:14px;}
+  .prio-item{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;}
+  .prio-num{
+    width:30px;height:30px;border-radius:50%;background:var(--sage);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;
+  }
+  .prio-item h4{font-size:15.5px;color:var(--ink);margin-bottom:4px;}
+  .prio-item p{font-size:13.5px;color:var(--ink-soft);margin:0;}
+
+  /* TWO DOC NOTE */
+  .doc-toggle{
+    display:flex;gap:10px;margin-bottom:8px;
+  }
+  .doc-pill{
+    font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:100px;
+    border:1px solid var(--line);color:var(--ink-soft);
+  }
+  .doc-pill.active{background:var(--sage);color:#fff;border-color:var(--sage);}
+
+  /* CTA */
+  .cta{
+    background:var(--bg-dark);color:var(--cream);text-align:center;padding:70px 0;
+  }
+  .cta h2{color:var(--cream);font-size:28px;max-width:600px;margin:0 auto 14px;}
+  .cta p{color:var(--cream-dim);font-size:15px;max-width:520px;margin:0 auto 28px;}
+  .cta a.btn{
+    display:inline-block;background:var(--amber);color:#241c19;font-weight:700;
+    padding:13px 28px;border-radius:8px;text-decoration:none;font-size:14.5px;
+  }
+  footer{
+    padding:30px 0;text-align:center;font-size:12.5px;color:var(--ink-soft);
+  }
+
+  @media (max-width:820px){
+    .hero h1{font-size:32px;}
+    .idea-grid,.insight-wrap,.email-grid,.stat-row,.measure-grid{grid-template-columns:1fr;}
+    .timeline{grid-template-columns:repeat(4,1fr);}
+    .hero .meta{gap:18px 28px;}
+    section{padding:52px 0;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="https://jdawkins-marketing.github.io">Jazmin Dawkins</a>
+    <a class="back" href="https://jdawkins-marketing.github.io">&larr; Back to portfolio</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  <div class="wrap">
+    <span class="badge">&#9673; Case study &middot; Final-round interview deliverable</span>
+    <h1>North Spore lifecycle rebuild &mdash; <em>turning kit buyers into growers, and growers into revenue</em></h1>
+    <p class="sub">A complete 0&ndash;90 day post-purchase architecture built for North Spore's flagship grow-kit products, developed during final-round interviews for an Ecommerce Lifecycle Manager role.</p>
+    <div class="meta">
+      <div><span class="label">Company</span><span class="val">North Spore &middot; DTC mushroom cultivation &amp; wellness</span></div>
+      <div><span class="label">Role</span><span class="val">Lifecycle &amp; Retention Strategy</span></div>
+      <div><span class="label">Scope</span><span class="val">Email/SMS architecture, segmentation, dynamic content strategy</span></div>
+      <div><span class="label">Products</span><span class="val">Boomr Bin Monotub &middot; BoomRoom II &amp; Lion's Mane</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="context-note wrap">
+  <strong>Context:</strong> this was built as a working deliverable during a final interview process, not a hired engagement &mdash; developed independently, using North Spore's public product and cultivation documentation, to demonstrate lifecycle thinking against a real brand and product line.
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Foundation</span>
+      <h2>Two ideas anchor the entire plan</h2>
+      <p>Before any email gets written, the strategy has to answer one question: what actually drives repeat purchase in a category where the product is a living organism, not a static SKU?</p>
+    </div>
+    <div class="idea-grid">
+      <div class="idea-card">
+        <div class="idea-icon sage">&#127807;</div>
+        <h3>Grow biology is the timeline</h3>
+        <p>The product ships alive and on its own clock &mdash; colonization, pinning, fruiting, harvest, flush. Messaging follows the mushroom, not an arbitrary drip schedule.</p>
+      </div>
+      <div class="idea-card">
+        <div class="idea-icon amber">&#128101;</div>
+        <h3>Education &times; community is the product</h3>
+        <p>Across 350,000+ growers, people aren't just buying mushrooms &mdash; they're buying into being the kind of person who grows them, and trusting the brand to get them there.</p>
+      </div>
+    </div>
+    <div class="not-strip"><b>What this is not:</b> discount-led retention &middot; hand-holding they didn't ask for &middot; generic education</div>
+  </div>
+</section>
+
+<section style="background:var(--sage-pale);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Customer insight</span>
+      <h2>Who this is designed for</h2>
+    </div>
+    <div class="insight-wrap">
+      <div class="insight-callout">
+        <span class="tag">Buyer profile</span>
+        <p>This isn't a curious first-time buyer's purchase &mdash; that's a Spray &amp; Grow Kit. A reusable monotub or automated tent plus a fruiting block means they've decided this is something to keep doing. Either they're already proven on a kit and upgrading for consistency, or they did real homework before ever placing an order. Either way, the price point filters out impulse buyers.</p>
+      </div>
+      <div class="insight-list">
+        <div class="insight-row"><div class="k">Why they bought</div><div class="v">A bigger commitment than a starter kit &mdash; worth doing well, not just trying once.</div></div>
+        <div class="insight-row"><div class="k">Hoping to achieve</div><div class="v">Move from "might be able to grow mushrooms" to "reliably can."</div></div>
+        <div class="insight-row"><div class="k">Nervous about</div><div class="v">Contamination, the silent pinning week, and how much to trust the process.</div></div>
+        <div class="insight-row"><div class="k">Success moment</div><div class="v">First pins, not just harvest &mdash; the moment doubt flips to belief.</div></div>
+        <div class="insight-row"><div class="k">Buys again when</div><div class="v">The first cycle felt supported and successful.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The 0&ndash;90 day journey</span>
+      <h2>Anchored to the grow, not the calendar</h2>
+      <p>The clock starts at activation, not purchase &mdash; blocks can sit refrigerated for months. Two branch points carry the whole intervention strategy; everything else is steady, biology-timed education.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-step"><div class="day">Day 0&ndash;2</div><div class="name">Verify</div></div>
+      <div class="tl-step"><div class="day">Day 2&ndash;3</div><div class="name">Activate</div></div>
+      <div class="tl-step"><div class="day">Day 3&ndash;16</div><div class="name">Pinning window</div></div>
+      <div class="tl-step branch"><div class="day">Day ~12&ndash;14</div><div class="name">Pin check &darr; branch</div></div>
+      <div class="tl-step"><div class="day">Day ~21&ndash;28</div><div class="name">First harvest</div></div>
+      <div class="tl-step branch"><div class="day">Day ~28&ndash;35</div><div class="name">Outcome &darr; branch</div></div>
+      <div class="tl-step"><div class="day">Day ~35&ndash;49</div><div class="name">Second flush</div></div>
+      <div class="tl-step"><div class="day">Day ~49&ndash;90</div><div class="name">Replenish</div></div>
+    </div>
+    <div class="tl-legend">
+      <span><span class="swatch n"></span> Standard step</span>
+      <span><span class="swatch b"></span> Branch point &mdash; segmentation trigger</span>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-dark-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow amber">Segmentation strategy</span>
+      <h2 style="color:var(--cream);">Two axes, measured independently</h2>
+      <p style="color:var(--cream-dim);">Outcome state is the primary segment. Automation trust is a tone modifier layered inside it. Experience level does not predict either, so neither is assumed.</p>
+    </div>
+    <table class="seg-table">
+      <tr><th>Outcome</th><th>Hands-off ("just tell me what to do")</th><th>Hands-on ("I want to control the settings")</th></tr>
+      <tr><td>Thriving</td><td>Celebrate + tease flush #2, light touch</td><td>Celebrate + the "why it worked" technical detail</td></tr>
+      <tr><td>Muddling through</td><td>Reassure + one simple fix, no jargon</td><td>Diagnose airflow + humidity specifics</td></tr>
+      <tr><td>Struggling</td><td>A human reaches out, gentle and patient</td><td>A human + the technical deep-dive they'll want</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Sample copy</span>
+      <h2>The branch point emails</h2>
+      <p>These two carry the highest leverage in the whole system &mdash; catching a stalled grow before it becomes a lost customer.</p>
+    </div>
+    <div class="email-grid">
+      <div class="email-card">
+        <div class="head">Pin check &middot; ~Day 12&ndash;14</div>
+        <div class="subj">Quick check &mdash; any pins yet?</div>
+        <div class="body">
+          <p>Hey [First Name],</p>
+          <p>It's been about two weeks since your Lion's Mane went into the BoomRoom &mdash; right around when the magic usually starts.</p>
+          <p>Take a look at your block. Seeing tiny white bumps forming? Those are pins &mdash; the first real sign you've got a grow on your hands.</p>
+        </div>
+        <div class="why"><b>Why this exists</b>The system's first branching decision. A click here writes outcome state and routes the customer into the right sub-flow, days before they'd ever have to self-report a failure.</div>
+      </div>
+      <div class="email-card">
+        <div class="head">Casing-layer timing &middot; ~Day 21 &middot; showpiece</div>
+        <div class="subj">Wait &mdash; don't add the coir yet.</div>
+        <div class="body">
+          <p>Hey [First Name],</p>
+          <p>This is the email that saves grows, so even if you skim everything else, read this one.</p>
+          <p>The coir only goes on once your monotub is fully colonized AND pins are beginning to form &mdash; add it too early and you can stall or ruin the whole thing.</p>
+        </div>
+        <div class="why"><b>Why this exists</b>Casing-layer timing is one of the most common, most documented mistakes in monotub cultivation. Catching it before it happens directly protects the harvest &mdash; and the harvest is what creates the repeat buyer.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--sage-pale);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Why it matters</span>
+      <h2>One successful flush starts the whole chain</h2>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="num">1st &rarr; 2nd</div><div class="lbl">Purchase conversion</div><div class="sub">The hardest, highest-leverage moment in retention economics</div></div>
+      <div class="stat-card mid"><div class="num">+$140</div><div class="lbl">Value per customer moved</div><div class="sub">Onto the subscription curve, illustrative model</div></div>
+      <div class="stat-card"><div class="num">+$34K/yr</div><div class="lbl">Base-case projected lift</div><div class="sub">At +6pts on second-block purchase rate, 1,000 buyers/qtr</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Where to start</span>
+      <h2>Prioritized build order</h2>
+      <p>Sized for a lean team &mdash; validate the core bet before layering on complexity.</p>
+    </div>
+    <div class="prio-list">
+      <div class="prio-item">
+        <div class="prio-num">1</div>
+        <div><h4>Pin-check proactive intervention</h4><p>The core bet &mdash; catch stalling grows before frustration. Build a minimal version and validate it first; everything else layers on once it's proven.</p></div>
+      </div>
+      <div class="prio-item">
+        <div class="prio-num">2</div>
+        <div><h4>Automation-trust quiz</h4><p>Cheapest lift &mdash; one property, one question &mdash; the foundation every message personalizes against.</p></div>
+      </div>
+      <div class="prio-item">
+        <div class="prio-num">3</div>
+        <div><h4>Outcome-state branch</h4><p>The post-harvest guardrail: never celebrate into a failure. Small build, big protection.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-dark-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow amber">Measurement</span>
+      <h2 style="color:var(--cream);">One north star, three tiers</h2>
+      <p style="color:var(--cream-dim);"><b style="color:var(--amber-light);">North star:</b> second-block purchase rate &mdash; the cleanest proof a supported first grow drives the next purchase.</p>
+    </div>
+    <div class="measure-grid">
+      <div class="measure-card lead">
+        <div class="tier">Leading &middot; visible week 1&ndash;3</div>
+        <ul><li>Pinning-window engagement</li><li>Pin-check "yes" rate</li><li>Outcome-state mix</li></ul>
+      </div>
+      <div class="measure-card lag">
+        <div class="tier">Lagging &middot; weeks 4&ndash;12+</div>
+        <ul><li>Time to second purchase</li><li>BlocksBox subscription adoption</li><li>Revenue per customer</li></ul>
+      </div>
+      <div class="measure-card guard">
+        <div class="tier">Guardrail &middot; do no harm</div>
+        <ul><li>Support tickets for grow issues</li><li>Unsub + spam complaint rate</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Companion deliverable</span>
+      <h2>BoomRoom II + Lion's Mane fruiting block</h2>
+      <p>A parallel 0&ndash;90 day architecture built for North Spore's automated fruiting-chamber product line, with a scalable model for extending one flow across ~15 mushroom strains via dynamic content rather than per-strain rebuilds.</p>
+    </div>
+    <table class="seg-table">
+      <tr><th>Strain</th><th>Pin window</th><th>Flushes</th><th>Harvest cue</th></tr>
+      <tr><td>Lion's Mane</td><td>1.5&ndash;2 wks</td><td>2</td><td>Teeth formed, before elongate</td></tr>
+      <tr><td>Blue Oyster</td><td>1&ndash;2 wks</td><td>2&ndash;3</td><td>Caps still curled under</td></tr>
+      <tr><td>Chestnut</td><td>2&ndash;3 wks</td><td>2</td><td>Before the veil breaks</td></tr>
+      <tr><td>Shiitake</td><td>1.5&ndash;2 wks</td><td>2&ndash;4</td><td>Before caps flatten</td></tr>
+    </table>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-top:14px;">Structure scales by container (fruiting block, spray &amp; grow kit, outdoor/log, monotub &mdash; ~4 flows total). Data scales by strain via Klaviyo profile properties and Shopify metafields &mdash; marginal cost of each new strain approaches zero.</p>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <h2>Grow biology is the timeline. Education and community is the product.</h2>
+    <p>Two well-built segments, two branch points that catch problems early, and a plan sized for a lean team to actually ship.</p>
+    <a class="btn" href="mailto:jdawkins.marketing@gmail.com">Get in touch</a>
+  </div>
+</div>
+
+<footer>
+  Jazmin Dawkins &middot; Lifecycle &amp; Retention Strategy &middot; jdawkins.marketing@gmail.com
+</footer>
+
+</body>
+</html>
